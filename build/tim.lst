@@ -1,0 +1,349 @@
+ARM GAS  /tmp/ccZiZFPB.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"tim.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_TIM6_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	MX_TIM6_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	MX_TIM6_Init:
+  27              	.LFB406:
+  28              		.file 1 "Src/tim.c"
+   1:Src/tim.c     **** /**
+   2:Src/tim.c     ****   ******************************************************************************
+   3:Src/tim.c     ****   * File Name          : TIM.c
+   4:Src/tim.c     ****   * Description        : This file provides code for the configuration
+   5:Src/tim.c     ****   *                      of the TIM instances.
+   6:Src/tim.c     ****   ******************************************************************************
+   7:Src/tim.c     ****   * @attention
+   8:Src/tim.c     ****   *
+   9:Src/tim.c     ****   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  10:Src/tim.c     ****   * All rights reserved.</center></h2>
+  11:Src/tim.c     ****   *
+  12:Src/tim.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/tim.c     ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/tim.c     ****   * License. You may obtain a copy of the License at:
+  15:Src/tim.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/tim.c     ****   *
+  17:Src/tim.c     ****   ******************************************************************************
+  18:Src/tim.c     ****   */
+  19:Src/tim.c     **** 
+  20:Src/tim.c     **** /* Includes ------------------------------------------------------------------*/
+  21:Src/tim.c     **** #include "tim.h"
+  22:Src/tim.c     **** 
+  23:Src/tim.c     **** /* USER CODE BEGIN 0 */
+  24:Src/tim.c     **** 
+  25:Src/tim.c     **** /* USER CODE END 0 */
+  26:Src/tim.c     **** 
+  27:Src/tim.c     **** TIM_HandleTypeDef htim6;
+  28:Src/tim.c     **** 
+  29:Src/tim.c     **** /* TIM6 init function */
+  30:Src/tim.c     **** void MX_TIM6_Init(void)
+ARM GAS  /tmp/ccZiZFPB.s 			page 2
+
+
+  31:Src/tim.c     **** {
+  29              		.loc 1 31 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 16
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 85B0     		sub	sp, sp, #20
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 24
+  32:Src/tim.c     ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  40              		.loc 1 32 3 view .LVU1
+  41              		.loc 1 32 27 is_stmt 0 view .LVU2
+  42 0004 0023     		movs	r3, #0
+  43 0006 0193     		str	r3, [sp, #4]
+  44 0008 0293     		str	r3, [sp, #8]
+  45 000a 0393     		str	r3, [sp, #12]
+  33:Src/tim.c     **** 
+  34:Src/tim.c     ****   htim6.Instance = TIM6;
+  46              		.loc 1 34 3 is_stmt 1 view .LVU3
+  47              		.loc 1 34 18 is_stmt 0 view .LVU4
+  48 000c 0F48     		ldr	r0, .L7
+  49 000e 104A     		ldr	r2, .L7+4
+  50 0010 0260     		str	r2, [r0]
+  35:Src/tim.c     ****   htim6.Init.Prescaler = 169;
+  51              		.loc 1 35 3 is_stmt 1 view .LVU5
+  52              		.loc 1 35 24 is_stmt 0 view .LVU6
+  53 0012 A922     		movs	r2, #169
+  54 0014 4260     		str	r2, [r0, #4]
+  36:Src/tim.c     ****   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  55              		.loc 1 36 3 is_stmt 1 view .LVU7
+  56              		.loc 1 36 26 is_stmt 0 view .LVU8
+  57 0016 8360     		str	r3, [r0, #8]
+  37:Src/tim.c     ****   htim6.Init.Period = 999;
+  58              		.loc 1 37 3 is_stmt 1 view .LVU9
+  59              		.loc 1 37 21 is_stmt 0 view .LVU10
+  60 0018 40F2E732 		movw	r2, #999
+  61 001c C260     		str	r2, [r0, #12]
+  38:Src/tim.c     ****   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  62              		.loc 1 38 3 is_stmt 1 view .LVU11
+  63              		.loc 1 38 32 is_stmt 0 view .LVU12
+  64 001e 8361     		str	r3, [r0, #24]
+  39:Src/tim.c     ****   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+  65              		.loc 1 39 3 is_stmt 1 view .LVU13
+  66              		.loc 1 39 7 is_stmt 0 view .LVU14
+  67 0020 FFF7FEFF 		bl	HAL_TIM_Base_Init
+  68              	.LVL0:
+  69              		.loc 1 39 6 view .LVU15
+  70 0024 58B9     		cbnz	r0, .L5
+  71              	.L2:
+  40:Src/tim.c     ****   {
+  41:Src/tim.c     ****     Error_Handler();
+  42:Src/tim.c     ****   }
+  43:Src/tim.c     ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_ENABLE;
+  72              		.loc 1 43 3 is_stmt 1 view .LVU16
+ARM GAS  /tmp/ccZiZFPB.s 			page 3
+
+
+  73              		.loc 1 43 37 is_stmt 0 view .LVU17
+  74 0026 1023     		movs	r3, #16
+  75 0028 0193     		str	r3, [sp, #4]
+  44:Src/tim.c     ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  76              		.loc 1 44 3 is_stmt 1 view .LVU18
+  77              		.loc 1 44 33 is_stmt 0 view .LVU19
+  78 002a 0023     		movs	r3, #0
+  79 002c 0393     		str	r3, [sp, #12]
+  45:Src/tim.c     ****   if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
+  80              		.loc 1 45 3 is_stmt 1 view .LVU20
+  81              		.loc 1 45 7 is_stmt 0 view .LVU21
+  82 002e 01A9     		add	r1, sp, #4
+  83 0030 0648     		ldr	r0, .L7
+  84 0032 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+  85              	.LVL1:
+  86              		.loc 1 45 6 view .LVU22
+  87 0036 28B9     		cbnz	r0, .L6
+  88              	.L1:
+  46:Src/tim.c     ****   {
+  47:Src/tim.c     ****     Error_Handler();
+  48:Src/tim.c     ****   }
+  49:Src/tim.c     **** 
+  50:Src/tim.c     **** }
+  89              		.loc 1 50 1 view .LVU23
+  90 0038 05B0     		add	sp, sp, #20
+  91              	.LCFI2:
+  92              		.cfi_remember_state
+  93              		.cfi_def_cfa_offset 4
+  94              		@ sp needed
+  95 003a 5DF804FB 		ldr	pc, [sp], #4
+  96              	.L5:
+  97              	.LCFI3:
+  98              		.cfi_restore_state
+  41:Src/tim.c     ****   }
+  99              		.loc 1 41 5 is_stmt 1 view .LVU24
+ 100 003e FFF7FEFF 		bl	Error_Handler
+ 101              	.LVL2:
+ 102 0042 F0E7     		b	.L2
+ 103              	.L6:
+  47:Src/tim.c     ****   }
+ 104              		.loc 1 47 5 view .LVU25
+ 105 0044 FFF7FEFF 		bl	Error_Handler
+ 106              	.LVL3:
+ 107              		.loc 1 50 1 is_stmt 0 view .LVU26
+ 108 0048 F6E7     		b	.L1
+ 109              	.L8:
+ 110 004a 00BF     		.align	2
+ 111              	.L7:
+ 112 004c 00000000 		.word	htim6
+ 113 0050 00100040 		.word	1073745920
+ 114              		.cfi_endproc
+ 115              	.LFE406:
+ 117              		.section	.text.HAL_TIM_Base_MspInit,"ax",%progbits
+ 118              		.align	1
+ 119              		.global	HAL_TIM_Base_MspInit
+ 120              		.syntax unified
+ 121              		.thumb
+ARM GAS  /tmp/ccZiZFPB.s 			page 4
+
+
+ 122              		.thumb_func
+ 123              		.fpu fpv4-sp-d16
+ 125              	HAL_TIM_Base_MspInit:
+ 126              	.LVL4:
+ 127              	.LFB407:
+  51:Src/tim.c     **** 
+  52:Src/tim.c     **** void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
+  53:Src/tim.c     **** {
+ 128              		.loc 1 53 1 is_stmt 1 view -0
+ 129              		.cfi_startproc
+ 130              		@ args = 0, pretend = 0, frame = 8
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              		@ link register save eliminated.
+  54:Src/tim.c     **** 
+  55:Src/tim.c     ****   if(tim_baseHandle->Instance==TIM6)
+ 133              		.loc 1 55 3 view .LVU28
+ 134              		.loc 1 55 20 is_stmt 0 view .LVU29
+ 135 0000 0268     		ldr	r2, [r0]
+ 136              		.loc 1 55 5 view .LVU30
+ 137 0002 094B     		ldr	r3, .L16
+ 138 0004 9A42     		cmp	r2, r3
+ 139 0006 00D0     		beq	.L15
+ 140 0008 7047     		bx	lr
+ 141              	.L15:
+  53:Src/tim.c     **** 
+ 142              		.loc 1 53 1 view .LVU31
+ 143 000a 82B0     		sub	sp, sp, #8
+ 144              	.LCFI4:
+ 145              		.cfi_def_cfa_offset 8
+  56:Src/tim.c     ****   {
+  57:Src/tim.c     ****   /* USER CODE BEGIN TIM6_MspInit 0 */
+  58:Src/tim.c     **** 
+  59:Src/tim.c     ****   /* USER CODE END TIM6_MspInit 0 */
+  60:Src/tim.c     ****     /* TIM6 clock enable */
+  61:Src/tim.c     ****     __HAL_RCC_TIM6_CLK_ENABLE();
+ 146              		.loc 1 61 5 is_stmt 1 view .LVU32
+ 147              	.LBB2:
+ 148              		.loc 1 61 5 view .LVU33
+ 149              		.loc 1 61 5 view .LVU34
+ 150 000c 03F50033 		add	r3, r3, #131072
+ 151 0010 9A6D     		ldr	r2, [r3, #88]
+ 152 0012 42F01002 		orr	r2, r2, #16
+ 153 0016 9A65     		str	r2, [r3, #88]
+ 154              		.loc 1 61 5 view .LVU35
+ 155 0018 9B6D     		ldr	r3, [r3, #88]
+ 156 001a 03F01003 		and	r3, r3, #16
+ 157 001e 0193     		str	r3, [sp, #4]
+ 158              		.loc 1 61 5 view .LVU36
+ 159 0020 019B     		ldr	r3, [sp, #4]
+ 160              	.LBE2:
+  62:Src/tim.c     ****   /* USER CODE BEGIN TIM6_MspInit 1 */
+  63:Src/tim.c     **** 
+  64:Src/tim.c     ****   /* USER CODE END TIM6_MspInit 1 */
+  65:Src/tim.c     ****   }
+  66:Src/tim.c     **** }
+ 161              		.loc 1 66 1 is_stmt 0 view .LVU37
+ 162 0022 02B0     		add	sp, sp, #8
+ARM GAS  /tmp/ccZiZFPB.s 			page 5
+
+
+ 163              	.LCFI5:
+ 164              		.cfi_def_cfa_offset 0
+ 165              		@ sp needed
+ 166 0024 7047     		bx	lr
+ 167              	.L17:
+ 168 0026 00BF     		.align	2
+ 169              	.L16:
+ 170 0028 00100040 		.word	1073745920
+ 171              		.cfi_endproc
+ 172              	.LFE407:
+ 174              		.section	.text.HAL_TIM_Base_MspDeInit,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	HAL_TIM_Base_MspDeInit
+ 177              		.syntax unified
+ 178              		.thumb
+ 179              		.thumb_func
+ 180              		.fpu fpv4-sp-d16
+ 182              	HAL_TIM_Base_MspDeInit:
+ 183              	.LVL5:
+ 184              	.LFB408:
+  67:Src/tim.c     **** 
+  68:Src/tim.c     **** void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
+  69:Src/tim.c     **** {
+ 185              		.loc 1 69 1 is_stmt 1 view -0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+  70:Src/tim.c     **** 
+  71:Src/tim.c     ****   if(tim_baseHandle->Instance==TIM6)
+ 190              		.loc 1 71 3 view .LVU39
+ 191              		.loc 1 71 20 is_stmt 0 view .LVU40
+ 192 0000 0268     		ldr	r2, [r0]
+ 193              		.loc 1 71 5 view .LVU41
+ 194 0002 054B     		ldr	r3, .L21
+ 195 0004 9A42     		cmp	r2, r3
+ 196 0006 00D0     		beq	.L20
+ 197              	.L18:
+  72:Src/tim.c     ****   {
+  73:Src/tim.c     ****   /* USER CODE BEGIN TIM6_MspDeInit 0 */
+  74:Src/tim.c     **** 
+  75:Src/tim.c     ****   /* USER CODE END TIM6_MspDeInit 0 */
+  76:Src/tim.c     ****     /* Peripheral clock disable */
+  77:Src/tim.c     ****     __HAL_RCC_TIM6_CLK_DISABLE();
+  78:Src/tim.c     ****   /* USER CODE BEGIN TIM6_MspDeInit 1 */
+  79:Src/tim.c     **** 
+  80:Src/tim.c     ****   /* USER CODE END TIM6_MspDeInit 1 */
+  81:Src/tim.c     ****   }
+  82:Src/tim.c     **** } 
+ 198              		.loc 1 82 1 view .LVU42
+ 199 0008 7047     		bx	lr
+ 200              	.L20:
+  77:Src/tim.c     ****   /* USER CODE BEGIN TIM6_MspDeInit 1 */
+ 201              		.loc 1 77 5 is_stmt 1 view .LVU43
+ 202 000a 044A     		ldr	r2, .L21+4
+ 203 000c 936D     		ldr	r3, [r2, #88]
+ 204 000e 23F01003 		bic	r3, r3, #16
+ARM GAS  /tmp/ccZiZFPB.s 			page 6
+
+
+ 205 0012 9365     		str	r3, [r2, #88]
+ 206              		.loc 1 82 1 is_stmt 0 view .LVU44
+ 207 0014 F8E7     		b	.L18
+ 208              	.L22:
+ 209 0016 00BF     		.align	2
+ 210              	.L21:
+ 211 0018 00100040 		.word	1073745920
+ 212 001c 00100240 		.word	1073876992
+ 213              		.cfi_endproc
+ 214              	.LFE408:
+ 216              		.comm	htim6,64,4
+ 217              		.text
+ 218              	.Letext0:
+ 219              		.file 2 "/home/alex/opt/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_t
+ 220              		.file 3 "/home/alex/opt/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 221              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 222              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/system_stm32g4xx.h"
+ 223              		.file 6 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 224              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 225              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 226              		.file 9 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash.h"
+ 227              		.file 10 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h"
+ 228              		.file 11 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ 229              		.file 12 "Inc/tim.h"
+ 230              		.file 13 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h"
+ 231              		.file 14 "Inc/main.h"
+ARM GAS  /tmp/ccZiZFPB.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 tim.c
+     /tmp/ccZiZFPB.s:18     .text.MX_TIM6_Init:0000000000000000 $t
+     /tmp/ccZiZFPB.s:26     .text.MX_TIM6_Init:0000000000000000 MX_TIM6_Init
+     /tmp/ccZiZFPB.s:112    .text.MX_TIM6_Init:000000000000004c $d
+                            *COM*:0000000000000040 htim6
+     /tmp/ccZiZFPB.s:118    .text.HAL_TIM_Base_MspInit:0000000000000000 $t
+     /tmp/ccZiZFPB.s:125    .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
+     /tmp/ccZiZFPB.s:170    .text.HAL_TIM_Base_MspInit:0000000000000028 $d
+     /tmp/ccZiZFPB.s:175    .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
+     /tmp/ccZiZFPB.s:182    .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
+     /tmp/ccZiZFPB.s:211    .text.HAL_TIM_Base_MspDeInit:0000000000000018 $d
+
+UNDEFINED SYMBOLS
+HAL_TIM_Base_Init
+HAL_TIMEx_MasterConfigSynchronization
+Error_Handler

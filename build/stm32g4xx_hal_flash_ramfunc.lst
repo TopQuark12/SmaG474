@@ -1,0 +1,650 @@
+ARM GAS  /tmp/ccYuGjKg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32g4xx_hal_flash_ramfunc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.RamFunc,"ax",%progbits
+  18              		.align	1
+  19              		.global	HAL_FLASHEx_EnableRunPowerDown
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	HAL_FLASHEx_EnableRunPowerDown:
+  27              	.LFB325:
+  28              		.file 1 "Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c"
+   1:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /**
+   2:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   ******************************************************************************
+   3:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @file    stm32g4xx_hal_flash_ramfunc.c
+   4:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @author  MCD Application Team
+   5:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @brief   FLASH RAMFUNC driver.
+   6:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *          This file provides a Flash firmware functions which should be
+   7:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *          executed from internal SRAM
+   8:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *            + FLASH Power Down in Run mode
+   9:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *            + FLASH DBANK User Option Byte
+  10:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+  11:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+  12:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   @verbatim
+  13:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   ==============================================================================
+  14:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****                    ##### Flash RAM functions #####
+  15:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   ==============================================================================
+  16:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  17:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     *** ARM Compiler ***
+  18:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     --------------------
+  19:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     [..] RAM functions are defined using the toolchain options.
+  20:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          Functions that are executed in RAM should reside in a separate
+  21:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          source module. Using the 'Options for File' dialog you can simply change
+  22:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          the 'Code / Const' area of a module to a memory space in physical RAM.
+  23:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          Available memory areas are declared in the 'Target' tab of the
+  24:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          Options for Target' dialog.
+  25:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  26:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     *** ICCARM Compiler ***
+  27:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     -----------------------
+  28:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     [..] RAM functions are defined using a specific toolchain keyword "__ramfunc".
+  29:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  30:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     *** GNU Compiler ***
+ARM GAS  /tmp/ccYuGjKg.s 			page 2
+
+
+  31:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     --------------------
+  32:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     [..] RAM functions are defined using a specific toolchain attribute
+  33:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****          "__attribute__((section(".RamFunc")))".
+  34:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  35:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   @endverbatim
+  36:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   ******************************************************************************
+  37:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @attention
+  38:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+  39:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * <h2><center>&copy; COPYRIGHT(c) 2019 STMicroelectronics</center></h2>
+  40:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+  41:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  42:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * the "License"; You may not use this file except in compliance with the
+  43:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * License. You may obtain a copy of the License at:
+  44:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *                       opensource.org/licenses/BSD-3-Clause
+  45:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+  46:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   ******************************************************************************
+  47:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  48:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  49:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Includes ------------------------------------------------------------------*/
+  50:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** #include "stm32g4xx_hal.h"
+  51:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  52:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /** @addtogroup STM32G4xx_HAL_Driver
+  53:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @{
+  54:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  55:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  56:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /** @defgroup FLASH_RAMFUNC FLASH_RAMFUNC
+  57:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @brief FLASH functions executed from RAM
+  58:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @{
+  59:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  60:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  61:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** #ifdef HAL_FLASH_MODULE_ENABLED
+  62:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  63:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Private typedef -----------------------------------------------------------*/
+  64:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Private define ------------------------------------------------------------*/
+  65:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Private macro -------------------------------------------------------------*/
+  66:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Private variables ---------------------------------------------------------*/
+  67:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Private function prototypes -----------------------------------------------*/
+  68:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /* Exported functions -------------------------------------------------------*/
+  69:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  70:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /** @defgroup FLASH_RAMFUNC_Exported_Functions FLASH_RAMFUNC Exported Functions
+  71:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @{
+  72:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  73:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  74:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /** @defgroup FLASH_RAMFUNC_Exported_Functions_Group1 Peripheral features functions
+  75:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****  *  @brief   Data transfers functions
+  76:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****  *
+  77:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** @verbatim
+  78:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****  ===============================================================================
+  79:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****                       ##### ramfunc functions #####
+  80:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****  ===============================================================================
+  81:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     [..]
+  82:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     This subsection provides a set of functions that should be executed from RAM.
+  83:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  84:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** @endverbatim
+  85:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @{
+  86:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  87:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ARM GAS  /tmp/ccYuGjKg.s 			page 3
+
+
+  88:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /**
+  89:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @brief  Enable the Power down in Run Mode
+  90:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @note   This function should be called and executed from SRAM memory.
+  91:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @retval None
+  92:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+  93:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** __RAM_FUNC HAL_StatusTypeDef HAL_FLASHEx_EnableRunPowerDown(void)
+  94:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** {
+  29              		.loc 1 94 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  95:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   /* Enable the Power Down in Run mode*/
+  96:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   __HAL_FLASH_POWER_DOWN_ENABLE();
+  34              		.loc 1 96 3 view .LVU1
+  35              		.loc 1 96 3 view .LVU2
+  36 0000 054B     		ldr	r3, .L2
+  37 0002 064A     		ldr	r2, .L2+4
+  38 0004 5A60     		str	r2, [r3, #4]
+  39              		.loc 1 96 3 view .LVU3
+  40 0006 064A     		ldr	r2, .L2+8
+  41 0008 5A60     		str	r2, [r3, #4]
+  42              		.loc 1 96 3 view .LVU4
+  43 000a 1A68     		ldr	r2, [r3]
+  44 000c 42F40052 		orr	r2, r2, #8192
+  45 0010 1A60     		str	r2, [r3]
+  97:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+  98:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   return HAL_OK;
+  46              		.loc 1 98 3 view .LVU5
+  99:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 100:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** }
+  47              		.loc 1 100 1 is_stmt 0 view .LVU6
+  48 0012 0020     		movs	r0, #0
+  49 0014 7047     		bx	lr
+  50              	.L3:
+  51 0016 00BF     		.align	2
+  52              	.L2:
+  53 0018 00200240 		.word	1073881088
+  54 001c 37261504 		.word	68494903
+  55 0020 FDFCFBFA 		.word	-84148995
+  56              		.cfi_endproc
+  57              	.LFE325:
+  59              		.align	1
+  60              		.global	HAL_FLASHEx_DisableRunPowerDown
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  64              		.fpu fpv4-sp-d16
+  66              	HAL_FLASHEx_DisableRunPowerDown:
+  67              	.LFB326:
+ 101:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 102:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /**
+ 103:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @brief  Disable the Power down in Run Mode
+ 104:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @note   This function should be called and executed from SRAM memory.
+ 105:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @retval None
+ 106:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+ 107:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** __RAM_FUNC HAL_StatusTypeDef HAL_FLASHEx_DisableRunPowerDown(void)
+ARM GAS  /tmp/ccYuGjKg.s 			page 4
+
+
+ 108:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** {
+  68              		.loc 1 108 1 is_stmt 1 view -0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+ 109:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   /* Disable the Power Down in Run mode*/
+ 110:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   __HAL_FLASH_POWER_DOWN_DISABLE();
+  73              		.loc 1 110 3 view .LVU8
+  74              		.loc 1 110 3 view .LVU9
+  75 0024 054B     		ldr	r3, .L5
+  76 0026 064A     		ldr	r2, .L5+4
+  77 0028 5A60     		str	r2, [r3, #4]
+  78              		.loc 1 110 3 view .LVU10
+  79 002a 064A     		ldr	r2, .L5+8
+  80 002c 5A60     		str	r2, [r3, #4]
+  81              		.loc 1 110 3 view .LVU11
+  82 002e 1A68     		ldr	r2, [r3]
+  83 0030 22F40052 		bic	r2, r2, #8192
+  84 0034 1A60     		str	r2, [r3]
+ 111:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 112:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   return HAL_OK;
+  85              		.loc 1 112 3 view .LVU12
+ 113:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** }
+  86              		.loc 1 113 1 is_stmt 0 view .LVU13
+  87 0036 0020     		movs	r0, #0
+  88 0038 7047     		bx	lr
+  89              	.L6:
+  90 003a 00BF     		.align	2
+  91              	.L5:
+  92 003c 00200240 		.word	1073881088
+  93 0040 37261504 		.word	68494903
+  94 0044 FDFCFBFA 		.word	-84148995
+  95              		.cfi_endproc
+  96              	.LFE326:
+  98              		.align	1
+  99              		.global	HAL_FLASHEx_OB_DBankConfig
+ 100              		.syntax unified
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.fpu fpv4-sp-d16
+ 105              	HAL_FLASHEx_OB_DBankConfig:
+ 106              	.LVL0:
+ 107              	.LFB327:
+ 114:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 115:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** #if defined (FLASH_OPTR_DBANK)
+ 116:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** /**
+ 117:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @brief  Program the FLASH DBANK User Option Byte.
+ 118:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+ 119:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @note   To configure the user option bytes, the option lock bit OPTLOCK must
+ 120:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *         be cleared with the call of the HAL_FLASH_OB_Unlock() function.
+ 121:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @note   To modify the DBANK option byte, no PCROP region should be defined.
+ 122:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *         To deactivate PCROP, user should perform RDP changing.
+ 123:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+ 124:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @param  DBankConfig The FLASH DBANK User Option Byte value.
+ 125:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *         This parameter  can be one of the following values:
+ 126:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *            @arg OB_DBANK_128_BITS: Single-bank with 128-bits data
+ARM GAS  /tmp/ccYuGjKg.s 			page 5
+
+
+ 127:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *            @arg OB_DBANK_64_BITS: Dual-bank with 64-bits data
+ 128:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   *
+ 129:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   * @retval HAL_Status
+ 130:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   */
+ 131:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** __RAM_FUNC HAL_StatusTypeDef HAL_FLASHEx_OB_DBankConfig(uint32_t DBankConfig)
+ 132:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** {
+ 108              		.loc 1 132 1 is_stmt 1 view -0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112              		@ link register save eliminated.
+ 133:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   register uint32_t count, reg;
+ 113              		.loc 1 133 3 view .LVU15
+ 134:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   HAL_StatusTypeDef status = HAL_ERROR;
+ 114              		.loc 1 134 3 view .LVU16
+ 135:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 136:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   /* Process Locked */
+ 137:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   __HAL_LOCK(&pFlash);
+ 115              		.loc 1 137 3 view .LVU17
+ 116              		.loc 1 137 3 view .LVU18
+ 117 0048 514B     		ldr	r3, .L19
+ 118 004a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 119 004c 012B     		cmp	r3, #1
+ 120 004e 00F09C80 		beq	.L18
+ 121              		.loc 1 137 3 discriminator 2 view .LVU19
+ 122 0052 4F4B     		ldr	r3, .L19
+ 123 0054 0122     		movs	r2, #1
+ 124 0056 1A70     		strb	r2, [r3]
+ 138:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 139:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   /* Check if the PCROP is disabled */
+ 140:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   reg = FLASH->PCROP1SR;
+ 125              		.loc 1 140 3 discriminator 2 view .LVU20
+ 126              		.loc 1 140 7 is_stmt 0 discriminator 2 view .LVU21
+ 127 0058 4E4B     		ldr	r3, .L19+4
+ 128 005a 5A6A     		ldr	r2, [r3, #36]
+ 129              	.LVL1:
+ 141:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   if (reg > FLASH->PCROP1ER)
+ 130              		.loc 1 141 3 is_stmt 1 discriminator 2 view .LVU22
+ 131              		.loc 1 141 18 is_stmt 0 discriminator 2 view .LVU23
+ 132 005c 9B6A     		ldr	r3, [r3, #40]
+ 133              		.loc 1 141 6 discriminator 2 view .LVU24
+ 134 005e 9342     		cmp	r3, r2
+ 135 0060 80F08E80 		bcs	.L9
+ 142:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   {
+ 143:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     reg = FLASH->PCROP2SR;
+ 136              		.loc 1 143 5 is_stmt 1 view .LVU25
+ 137              		.loc 1 143 9 is_stmt 0 view .LVU26
+ 138 0064 4B4A     		ldr	r2, .L19+4
+ 139              	.LVL2:
+ 140              		.loc 1 143 9 view .LVU27
+ 141 0066 536C     		ldr	r3, [r2, #68]
+ 142              	.LVL3:
+ 144:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     if (reg > FLASH->PCROP2ER)
+ 143              		.loc 1 144 5 is_stmt 1 view .LVU28
+ 144              		.loc 1 144 20 is_stmt 0 view .LVU29
+ 145 0068 926C     		ldr	r2, [r2, #72]
+ 146              		.loc 1 144 8 view .LVU30
+ARM GAS  /tmp/ccYuGjKg.s 			page 6
+
+
+ 147 006a 9A42     		cmp	r2, r3
+ 148 006c 80F08880 		bcs	.L9
+ 145:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     {
+ 146:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Disable Flash prefetch */
+ 147:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
+ 149              		.loc 1 147 7 is_stmt 1 view .LVU31
+ 150 0070 484B     		ldr	r3, .L19+4
+ 151              	.LVL4:
+ 152              		.loc 1 147 7 is_stmt 0 view .LVU32
+ 153 0072 1A68     		ldr	r2, [r3]
+ 154 0074 22F48072 		bic	r2, r2, #256
+ 155 0078 1A60     		str	r2, [r3]
+ 148:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 149:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (READ_BIT(FLASH->ACR, FLASH_ACR_ICEN) != 0U)
+ 156              		.loc 1 149 7 is_stmt 1 view .LVU33
+ 157              		.loc 1 149 11 is_stmt 0 view .LVU34
+ 158 007a 1B68     		ldr	r3, [r3]
+ 159              		.loc 1 149 10 view .LVU35
+ 160 007c 13F4007F 		tst	r3, #512
+ 161 0080 0CD0     		beq	.L10
+ 150:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 151:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         /* Disable Flash instruction cache */
+ 152:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         __HAL_FLASH_INSTRUCTION_CACHE_DISABLE();
+ 162              		.loc 1 152 9 is_stmt 1 view .LVU36
+ 163 0082 444B     		ldr	r3, .L19+4
+ 164 0084 1A68     		ldr	r2, [r3]
+ 165 0086 22F40072 		bic	r2, r2, #512
+ 166 008a 1A60     		str	r2, [r3]
+ 153:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 154:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         /* Flush Flash instruction cache */
+ 155:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         __HAL_FLASH_INSTRUCTION_CACHE_RESET();
+ 167              		.loc 1 155 9 view .LVU37
+ 168              		.loc 1 155 9 view .LVU38
+ 169 008c 1A68     		ldr	r2, [r3]
+ 170 008e 42F40062 		orr	r2, r2, #2048
+ 171 0092 1A60     		str	r2, [r3]
+ 172              		.loc 1 155 9 view .LVU39
+ 173 0094 1A68     		ldr	r2, [r3]
+ 174 0096 22F40062 		bic	r2, r2, #2048
+ 175 009a 1A60     		str	r2, [r3]
+ 176              	.L10:
+ 156:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 157:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 158:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (READ_BIT(FLASH->ACR, FLASH_ACR_DCEN) != 0U)
+ 177              		.loc 1 158 7 view .LVU40
+ 178              		.loc 1 158 11 is_stmt 0 view .LVU41
+ 179 009c 3D4B     		ldr	r3, .L19+4
+ 180 009e 1B68     		ldr	r3, [r3]
+ 181              		.loc 1 158 10 view .LVU42
+ 182 00a0 13F4806F 		tst	r3, #1024
+ 183 00a4 0CD0     		beq	.L11
+ 159:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 160:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         /* Disable Flash data cache */
+ 161:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         __HAL_FLASH_DATA_CACHE_DISABLE();
+ 184              		.loc 1 161 9 is_stmt 1 view .LVU43
+ 185 00a6 3B4B     		ldr	r3, .L19+4
+ 186 00a8 1A68     		ldr	r2, [r3]
+ARM GAS  /tmp/ccYuGjKg.s 			page 7
+
+
+ 187 00aa 22F48062 		bic	r2, r2, #1024
+ 188 00ae 1A60     		str	r2, [r3]
+ 162:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 163:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         /* Flush Flash data cache */
+ 164:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         __HAL_FLASH_DATA_CACHE_RESET();
+ 189              		.loc 1 164 9 view .LVU44
+ 190              		.loc 1 164 9 view .LVU45
+ 191 00b0 1A68     		ldr	r2, [r3]
+ 192 00b2 42F48052 		orr	r2, r2, #4096
+ 193 00b6 1A60     		str	r2, [r3]
+ 194              		.loc 1 164 9 view .LVU46
+ 195 00b8 1A68     		ldr	r2, [r3]
+ 196 00ba 22F48052 		bic	r2, r2, #4096
+ 197 00be 1A60     		str	r2, [r3]
+ 198              	.L11:
+ 165:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 166:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 167:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Disable WRP zone A of 1st bank if needed */
+ 168:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       reg = FLASH->WRP1AR;
+ 199              		.loc 1 168 7 view .LVU47
+ 200              		.loc 1 168 11 is_stmt 0 view .LVU48
+ 201 00c0 344B     		ldr	r3, .L19+4
+ 202 00c2 DB6A     		ldr	r3, [r3, #44]
+ 203              	.LVL5:
+ 169:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP1AR_WRP1A_STRT) >> FLASH_WRP1AR_WRP1A_STRT_Pos) <=
+ 204              		.loc 1 169 7 is_stmt 1 view .LVU49
+ 205              		.loc 1 169 44 is_stmt 0 view .LVU50
+ 206 00c4 03F07F02 		and	r2, r3, #127
+ 170:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****           ((reg & FLASH_WRP1AR_WRP1A_END) >> FLASH_WRP1AR_WRP1A_END_Pos))
+ 207              		.loc 1 170 43 view .LVU51
+ 208 00c8 C3F30643 		ubfx	r3, r3, #16, #7
+ 209              	.LVL6:
+ 169:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP1AR_WRP1A_STRT) >> FLASH_WRP1AR_WRP1A_STRT_Pos) <=
+ 210              		.loc 1 169 10 view .LVU52
+ 211 00cc 9A42     		cmp	r2, r3
+ 212 00ce 06D8     		bhi	.L12
+ 171:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 172:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         MODIFY_REG(FLASH->WRP1AR, (FLASH_WRP1AR_WRP1A_STRT | FLASH_WRP1AR_WRP1A_END), FLASH_WRP1AR_
+ 213              		.loc 1 172 9 is_stmt 1 view .LVU53
+ 214 00d0 304A     		ldr	r2, .L19+4
+ 215 00d2 D36A     		ldr	r3, [r2, #44]
+ 216 00d4 23F07F13 		bic	r3, r3, #8323199
+ 217 00d8 43F07F03 		orr	r3, r3, #127
+ 218 00dc D362     		str	r3, [r2, #44]
+ 219              	.L12:
+ 173:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 174:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 175:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Disable WRP zone B of 1st bank if needed */
+ 176:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       reg = FLASH->WRP1BR;
+ 220              		.loc 1 176 7 view .LVU54
+ 221              		.loc 1 176 11 is_stmt 0 view .LVU55
+ 222 00de 2D4B     		ldr	r3, .L19+4
+ 223 00e0 1B6B     		ldr	r3, [r3, #48]
+ 224              	.LVL7:
+ 177:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP1BR_WRP1B_STRT) >> FLASH_WRP1BR_WRP1B_STRT_Pos) <=
+ 225              		.loc 1 177 7 is_stmt 1 view .LVU56
+ 226              		.loc 1 177 44 is_stmt 0 view .LVU57
+ARM GAS  /tmp/ccYuGjKg.s 			page 8
+
+
+ 227 00e2 03F07F02 		and	r2, r3, #127
+ 178:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****           ((reg & FLASH_WRP1BR_WRP1B_END) >> FLASH_WRP1BR_WRP1B_END_Pos))
+ 228              		.loc 1 178 43 view .LVU58
+ 229 00e6 C3F30643 		ubfx	r3, r3, #16, #7
+ 230              	.LVL8:
+ 177:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP1BR_WRP1B_STRT) >> FLASH_WRP1BR_WRP1B_STRT_Pos) <=
+ 231              		.loc 1 177 10 view .LVU59
+ 232 00ea 9A42     		cmp	r2, r3
+ 233 00ec 06D8     		bhi	.L13
+ 179:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 180:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         MODIFY_REG(FLASH->WRP1BR, (FLASH_WRP1BR_WRP1B_STRT | FLASH_WRP1BR_WRP1B_END), FLASH_WRP1BR_
+ 234              		.loc 1 180 9 is_stmt 1 view .LVU60
+ 235 00ee 294A     		ldr	r2, .L19+4
+ 236 00f0 136B     		ldr	r3, [r2, #48]
+ 237 00f2 23F07F13 		bic	r3, r3, #8323199
+ 238 00f6 43F07F03 		orr	r3, r3, #127
+ 239 00fa 1363     		str	r3, [r2, #48]
+ 240              	.L13:
+ 181:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 182:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 183:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Disable WRP zone A of 2nd bank if needed */
+ 184:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       reg = FLASH->WRP2AR;
+ 241              		.loc 1 184 7 view .LVU61
+ 242              		.loc 1 184 11 is_stmt 0 view .LVU62
+ 243 00fc 254B     		ldr	r3, .L19+4
+ 244 00fe DB6C     		ldr	r3, [r3, #76]
+ 245              	.LVL9:
+ 185:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP2AR_WRP2A_STRT) >> FLASH_WRP2AR_WRP2A_STRT_Pos) <=
+ 246              		.loc 1 185 7 is_stmt 1 view .LVU63
+ 247              		.loc 1 185 44 is_stmt 0 view .LVU64
+ 248 0100 03F07F02 		and	r2, r3, #127
+ 186:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****           ((reg & FLASH_WRP2AR_WRP2A_END) >> FLASH_WRP2AR_WRP2A_END_Pos))
+ 249              		.loc 1 186 43 view .LVU65
+ 250 0104 C3F30643 		ubfx	r3, r3, #16, #7
+ 251              	.LVL10:
+ 185:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP2AR_WRP2A_STRT) >> FLASH_WRP2AR_WRP2A_STRT_Pos) <=
+ 252              		.loc 1 185 10 view .LVU66
+ 253 0108 9A42     		cmp	r2, r3
+ 254 010a 06D8     		bhi	.L14
+ 187:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 188:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         MODIFY_REG(FLASH->WRP2AR, (FLASH_WRP2AR_WRP2A_STRT | FLASH_WRP2AR_WRP2A_END), FLASH_WRP2AR_
+ 255              		.loc 1 188 9 is_stmt 1 view .LVU67
+ 256 010c 214A     		ldr	r2, .L19+4
+ 257 010e D36C     		ldr	r3, [r2, #76]
+ 258 0110 23F07F13 		bic	r3, r3, #8323199
+ 259 0114 43F07F03 		orr	r3, r3, #127
+ 260 0118 D364     		str	r3, [r2, #76]
+ 261              	.L14:
+ 189:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 190:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 191:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Disable WRP zone B of 2nd bank if needed */
+ 192:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       reg = FLASH->WRP2BR;
+ 262              		.loc 1 192 7 view .LVU68
+ 263              		.loc 1 192 11 is_stmt 0 view .LVU69
+ 264 011a 1E4B     		ldr	r3, .L19+4
+ 265 011c 1B6D     		ldr	r3, [r3, #80]
+ 266              	.LVL11:
+ARM GAS  /tmp/ccYuGjKg.s 			page 9
+
+
+ 193:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP2BR_WRP2B_STRT) >> FLASH_WRP2BR_WRP2B_STRT_Pos) <=
+ 267              		.loc 1 193 7 is_stmt 1 view .LVU70
+ 268              		.loc 1 193 44 is_stmt 0 view .LVU71
+ 269 011e 03F07F02 		and	r2, r3, #127
+ 194:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****           ((reg & FLASH_WRP2BR_WRP2B_END) >> FLASH_WRP2BR_WRP2B_END_Pos))
+ 270              		.loc 1 194 43 view .LVU72
+ 271 0122 C3F30643 		ubfx	r3, r3, #16, #7
+ 272              	.LVL12:
+ 193:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       if (((reg & FLASH_WRP2BR_WRP2B_STRT) >> FLASH_WRP2BR_WRP2B_STRT_Pos) <=
+ 273              		.loc 1 193 10 view .LVU73
+ 274 0126 9A42     		cmp	r2, r3
+ 275 0128 06D8     		bhi	.L15
+ 195:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ 196:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         MODIFY_REG(FLASH->WRP2BR, (FLASH_WRP2BR_WRP2B_STRT | FLASH_WRP2BR_WRP2B_END), FLASH_WRP2BR_
+ 276              		.loc 1 196 9 is_stmt 1 view .LVU74
+ 277 012a 1A4A     		ldr	r2, .L19+4
+ 278 012c 136D     		ldr	r3, [r2, #80]
+ 279 012e 23F07F13 		bic	r3, r3, #8323199
+ 280 0132 43F07F03 		orr	r3, r3, #127
+ 281 0136 1365     		str	r3, [r2, #80]
+ 282              	.L15:
+ 197:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 198:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 199:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Modify the DBANK user option byte */
+ 200:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       MODIFY_REG(FLASH->OPTR, FLASH_OPTR_DBANK, DBankConfig);
+ 283              		.loc 1 200 7 view .LVU75
+ 284 0138 164A     		ldr	r2, .L19+4
+ 285 013a 136A     		ldr	r3, [r2, #32]
+ 286 013c 23F48003 		bic	r3, r3, #4194304
+ 287 0140 0343     		orrs	r3, r3, r0
+ 288 0142 1362     		str	r3, [r2, #32]
+ 201:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 202:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Set OPTSTRT Bit */
+ 203:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       SET_BIT(FLASH->CR, FLASH_CR_OPTSTRT);
+ 289              		.loc 1 203 7 view .LVU76
+ 290 0144 5369     		ldr	r3, [r2, #20]
+ 291 0146 43F40033 		orr	r3, r3, #131072
+ 292 014a 5361     		str	r3, [r2, #20]
+ 204:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 205:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Wait for last operation to be completed */
+ 206:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* 8 is the number of required instruction cycles for the below loop statement (timeout expre
+ 207:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       count = FLASH_TIMEOUT_VALUE * (SystemCoreClock / 8U / 1000U);
+ 293              		.loc 1 207 7 view .LVU77
+ 294              		.loc 1 207 59 is_stmt 0 view .LVU78
+ 295 014c 124B     		ldr	r3, .L19+8
+ 296 014e 1B68     		ldr	r3, [r3]
+ 297 0150 124A     		ldr	r2, .L19+12
+ 298 0152 A2FB0323 		umull	r2, r3, r2, r3
+ 299 0156 5A0A     		lsrs	r2, r3, #9
+ 300              		.loc 1 207 13 view .LVU79
+ 301 0158 4FF47A73 		mov	r3, #1000
+ 302 015c 03FB02F3 		mul	r3, r3, r2
+ 303              	.LVL13:
+ 304              	.L17:
+ 208:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       do
+ 305              		.loc 1 208 7 is_stmt 1 view .LVU80
+ 209:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       {
+ARM GAS  /tmp/ccYuGjKg.s 			page 10
+
+
+ 210:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         if (count == 0U)
+ 306              		.loc 1 210 9 view .LVU81
+ 307              		.loc 1 210 12 is_stmt 0 view .LVU82
+ 308 0160 2BB1     		cbz	r3, .L16
+ 211:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         {
+ 212:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****           break;
+ 213:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         }
+ 214:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****         count--;
+ 309              		.loc 1 214 9 is_stmt 1 view .LVU83
+ 310              		.loc 1 214 14 is_stmt 0 view .LVU84
+ 311 0162 013B     		subs	r3, r3, #1
+ 312              	.LVL14:
+ 215:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       }
+ 216:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       while (__HAL_FLASH_GET_FLAG(FLASH_FLAG_BSY) != RESET);
+ 313              		.loc 1 216 14 view .LVU85
+ 314 0164 0B4A     		ldr	r2, .L19+4
+ 315 0166 1269     		ldr	r2, [r2, #16]
+ 316              		.loc 1 216 7 view .LVU86
+ 317 0168 12F4803F 		tst	r2, #65536
+ 318 016c F8D1     		bne	.L17
+ 319              	.L16:
+ 217:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 218:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* If the option byte program operation is completed, disable the OPTSTRT Bit */
+ 219:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       CLEAR_BIT(FLASH->CR, FLASH_CR_OPTSTRT);
+ 320              		.loc 1 219 7 is_stmt 1 view .LVU87
+ 321 016e 094B     		ldr	r3, .L19+4
+ 322              	.LVL15:
+ 323              		.loc 1 219 7 is_stmt 0 view .LVU88
+ 324 0170 5A69     		ldr	r2, [r3, #20]
+ 325 0172 22F40032 		bic	r2, r2, #131072
+ 326 0176 5A61     		str	r2, [r3, #20]
+ 220:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 221:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       /* Set the bit to force the option byte reloading */
+ 222:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****       SET_BIT(FLASH->CR, FLASH_CR_OBL_LAUNCH);
+ 327              		.loc 1 222 7 is_stmt 1 view .LVU89
+ 328 0178 5A69     		ldr	r2, [r3, #20]
+ 329 017a 42F00062 		orr	r2, r2, #134217728
+ 330 017e 5A61     		str	r2, [r3, #20]
+ 331              	.L9:
+ 223:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****     }
+ 224:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   }
+ 225:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 226:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   /* Process Unlocked */
+ 227:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   __HAL_UNLOCK(&pFlash);
+ 332              		.loc 1 227 3 view .LVU90
+ 333              		.loc 1 227 3 view .LVU91
+ 334 0180 034B     		ldr	r3, .L19
+ 335 0182 0022     		movs	r2, #0
+ 336 0184 1A70     		strb	r2, [r3]
+ 228:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 229:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c ****   return status;
+ 337              		.loc 1 229 3 view .LVU92
+ 338              		.loc 1 229 10 is_stmt 0 view .LVU93
+ 339 0186 0120     		movs	r0, #1
+ 340              	.LVL16:
+ 341              		.loc 1 229 10 view .LVU94
+ 342 0188 7047     		bx	lr
+ARM GAS  /tmp/ccYuGjKg.s 			page 11
+
+
+ 343              	.LVL17:
+ 344              	.L18:
+ 137:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** 
+ 345              		.loc 1 137 3 view .LVU95
+ 346 018a 0220     		movs	r0, #2
+ 347              	.LVL18:
+ 230:Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c **** }
+ 348              		.loc 1 230 1 view .LVU96
+ 349 018c 7047     		bx	lr
+ 350              	.L20:
+ 351 018e 00BF     		.align	2
+ 352              	.L19:
+ 353 0190 00000000 		.word	pFlash
+ 354 0194 00200240 		.word	1073881088
+ 355 0198 00000000 		.word	SystemCoreClock
+ 356 019c D34D6210 		.word	274877907
+ 357              		.cfi_endproc
+ 358              	.LFE327:
+ 360              		.text
+ 361              	.Letext0:
+ 362              		.file 2 "/home/alex/opt/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_t
+ 363              		.file 3 "/home/alex/opt/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 364              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 365              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/system_stm32g4xx.h"
+ 366              		.file 6 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 367              		.file 7 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h"
+ 368              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 369              		.file 9 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash.h"
+ 370              		.file 10 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ARM GAS  /tmp/ccYuGjKg.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32g4xx_hal_flash_ramfunc.c
+     /tmp/ccYuGjKg.s:18     .RamFunc:0000000000000000 $t
+     /tmp/ccYuGjKg.s:26     .RamFunc:0000000000000000 HAL_FLASHEx_EnableRunPowerDown
+     /tmp/ccYuGjKg.s:53     .RamFunc:0000000000000018 $d
+     /tmp/ccYuGjKg.s:59     .RamFunc:0000000000000024 $t
+     /tmp/ccYuGjKg.s:66     .RamFunc:0000000000000024 HAL_FLASHEx_DisableRunPowerDown
+     /tmp/ccYuGjKg.s:92     .RamFunc:000000000000003c $d
+     /tmp/ccYuGjKg.s:98     .RamFunc:0000000000000048 $t
+     /tmp/ccYuGjKg.s:105    .RamFunc:0000000000000048 HAL_FLASHEx_OB_DBankConfig
+     /tmp/ccYuGjKg.s:353    .RamFunc:0000000000000190 $d
+
+UNDEFINED SYMBOLS
+pFlash
+SystemCoreClock
