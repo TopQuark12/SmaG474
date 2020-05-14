@@ -35,16 +35,17 @@
 /**
  * @defgroup scale Vector Scale
  *
- * Multiply a vector by a scalar value.  For floating-point data, the algorithm used is:
+ * Multiply a vector by a scalar value.  For floating-point data, the algorithm
+ * used is:
  *
  * <pre>
  *     pDst[n] = pSrc[n] * scale,   0 <= n < blockSize.
  * </pre>
  *
- * In the fixed-point Q7, Q15, and Q31 functions, <code>scale</code> is represented by
- * a fractional multiplication <code>scaleFract</code> and an arithmetic shift <code>shift</code>.
- * The shift allows the gain of the scaling operation to exceed 1.0.
- * The algorithm used with fixed-point data is:
+ * In the fixed-point Q7, Q15, and Q31 functions, <code>scale</code> is
+ * represented by a fractional multiplication <code>scaleFract</code> and an
+ * arithmetic shift <code>shift</code>. The shift allows the gain of the scaling
+ * operation to exceed 1.0. The algorithm used with fixed-point data is:
  *
  * <pre>
  *     pDst[n] = (pSrc[n] * scaleFract) << shift,   0 <= n < blockSize.
@@ -55,8 +56,8 @@
  *     scale = scaleFract * 2^shift.
  * </pre>
  *
- * The functions support in-place computation allowing the source and destination
- * pointers to reference the same memory buffer.
+ * The functions support in-place computation allowing the source and
+ * destination pointers to reference the same memory buffer.
  */
 
 /**
@@ -73,83 +74,85 @@
  * @return none.
  */
 
-
-void arm_scale_f32(
-  float32_t * pSrc,
-  float32_t scale,
-  float32_t * pDst,
-  uint32_t blockSize)
+void arm_scale_f32(float32_t *pSrc,
+                   float32_t scale,
+                   float32_t *pDst,
+                   uint32_t blockSize)
 {
-  uint32_t blkCnt;                               /* loop counter */
-#if defined (ARM_MATH_DSP)
+    uint32_t blkCnt; /* loop counter */
+#if defined(ARM_MATH_DSP)
 
-/* Run the below code for Cortex-M4 and Cortex-M3 */
-  float32_t in1, in2, in3, in4;                  /* temporary variabels */
+    /* Run the below code for Cortex-M4 and Cortex-M3 */
+    float32_t in1, in2, in3, in4; /* temporary variabels */
 
-  /*loop Unrolling */
-  blkCnt = blockSize >> 2U;
+    /*loop Unrolling */
+    blkCnt = blockSize >> 2U;
 
-  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
-   ** a second loop below computes the remaining 1 to 3 samples. */
-  while (blkCnt > 0U)
-  {
-    /* C = A * scale */
-    /* Scale the input and then store the results in the destination buffer. */
-    /* read input samples from source */
-    in1 = *pSrc;
-    in2 = *(pSrc + 1);
+    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
+     *time.
+     ** a second loop below computes the remaining 1 to 3 samples. */
+    while (blkCnt > 0U)
+    {
+        /* C = A * scale */
+        /* Scale the input and then store the results in the destination buffer.
+         */
+        /* read input samples from source */
+        in1 = *pSrc;
+        in2 = *(pSrc + 1);
 
-    /* multiply with scaling factor */
-    in1 = in1 * scale;
+        /* multiply with scaling factor */
+        in1 = in1 * scale;
 
-    /* read input sample from source */
-    in3 = *(pSrc + 2);
+        /* read input sample from source */
+        in3 = *(pSrc + 2);
 
-    /* multiply with scaling factor */
-    in2 = in2 * scale;
+        /* multiply with scaling factor */
+        in2 = in2 * scale;
 
-    /* read input sample from source */
-    in4 = *(pSrc + 3);
+        /* read input sample from source */
+        in4 = *(pSrc + 3);
 
-    /* multiply with scaling factor */
-    in3 = in3 * scale;
-    in4 = in4 * scale;
-    /* store the result to destination */
-    *pDst = in1;
-    *(pDst + 1) = in2;
-    *(pDst + 2) = in3;
-    *(pDst + 3) = in4;
+        /* multiply with scaling factor */
+        in3 = in3 * scale;
+        in4 = in4 * scale;
+        /* store the result to destination */
+        *pDst = in1;
+        *(pDst + 1) = in2;
+        *(pDst + 2) = in3;
+        *(pDst + 3) = in4;
 
-    /* update pointers to process next samples */
-    pSrc += 4U;
-    pDst += 4U;
+        /* update pointers to process next samples */
+        pSrc += 4U;
+        pDst += 4U;
 
-    /* Decrement the loop counter */
-    blkCnt--;
-  }
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
 
-  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
-   ** No loop unrolling is used. */
-  blkCnt = blockSize % 0x4U;
+    /* If the blockSize is not a multiple of 4, compute any remaining output
+     *samples here.
+     ** No loop unrolling is used. */
+    blkCnt = blockSize % 0x4U;
 
 #else
 
-  /* Run the below code for Cortex-M0 */
+    /* Run the below code for Cortex-M0 */
 
-  /* Initialize blkCnt with number of samples */
-  blkCnt = blockSize;
+    /* Initialize blkCnt with number of samples */
+    blkCnt = blockSize;
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-  while (blkCnt > 0U)
-  {
-    /* C = A * scale */
-    /* Scale the input and then store the result in the destination buffer. */
-    *pDst++ = (*pSrc++) * scale;
+    while (blkCnt > 0U)
+    {
+        /* C = A * scale */
+        /* Scale the input and then store the result in the destination buffer.
+         */
+        *pDst++ = (*pSrc++) * scale;
 
-    /* Decrement the loop counter */
-    blkCnt--;
-  }
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
 }
 
 /**

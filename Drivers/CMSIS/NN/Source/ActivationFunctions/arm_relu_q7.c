@@ -40,30 +40,29 @@
  * @{
  */
 
-  /**
-   * @brief Q7 RELU function
-   * @param[in,out]   data        pointer to input
-   * @param[in]       size        number of elements
-   * @return none.
-   * 
-   * @details
-   *
-   * Optimized relu with QSUB instructions.
-   *
-   */
+/**
+ * @brief Q7 RELU function
+ * @param[in,out]   data        pointer to input
+ * @param[in]       size        number of elements
+ * @return none.
+ *
+ * @details
+ *
+ * Optimized relu with QSUB instructions.
+ *
+ */
 
-void arm_relu_q7(q7_t * data, uint16_t size)
+void arm_relu_q7(q7_t *data, uint16_t size)
 {
-
-#if defined (ARM_MATH_DSP)
+#if defined(ARM_MATH_DSP)
     /* Run the following code for Cortex-M4 and Cortex-M7 */
 
-    uint16_t  i = size >> 2;
-    q7_t     *pIn = data;
-    q7_t     *pOut = data;
-    q31_t     in;
-    q31_t     buf;
-    q31_t     mask;
+    uint16_t i = size >> 2;
+    q7_t *pIn = data;
+    q7_t *pOut = data;
+    q31_t in;
+    q31_t buf;
+    q31_t mask;
 
     while (i)
     {
@@ -91,9 +90,10 @@ void arm_relu_q7(q7_t * data, uint16_t size)
     }
 
 #else
-    /* Run the following code as reference implementation for Cortex-M0 and Cortex-M3 */
+    /* Run the following code as reference implementation for Cortex-M0 and
+     * Cortex-M3 */
 
-    uint16_t  i;
+    uint16_t i;
 
     for (i = 0; i < size; i++)
     {
@@ -101,8 +101,7 @@ void arm_relu_q7(q7_t * data, uint16_t size)
             data[i] = 0;
     }
 
-#endif                          /* ARM_MATH_DSP */
-
+#endif /* ARM_MATH_DSP */
 }
 
 /**

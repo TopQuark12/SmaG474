@@ -26,14 +26,14 @@
  * limitations under the License.
  */
 
-#include "arm_math.h"
 #include "arm_common_tables.h"
+#include "arm_math.h"
 
 /**
  * @ingroup groupFastMath
  */
 
- /**
+/**
  * @addtogroup cos
  * @{
  */
@@ -47,36 +47,35 @@
  * value in the range [0 2*pi).
  */
 
-q31_t arm_cos_q31(
-  q31_t x)
+q31_t arm_cos_q31(q31_t x)
 {
-  q31_t cosVal;                                  /* Temporary variables for input, output */
-  int32_t index;                                 /* Index variables */
-  q31_t a, b;                                    /* Four nearest output values */
-  q31_t fract;                                   /* Temporary values for fractional values */
+    q31_t cosVal;  /* Temporary variables for input, output */
+    int32_t index; /* Index variables */
+    q31_t a, b;    /* Four nearest output values */
+    q31_t fract;   /* Temporary values for fractional values */
 
-  /* add 0.25 (pi/2) to read sine table */
-  x = (uint32_t)x + 0x20000000;
-  if (x < 0)
-  {   /* convert negative numbers to corresponding positive ones */
-      x = (uint32_t)x + 0x80000000;
-  }
+    /* add 0.25 (pi/2) to read sine table */
+    x = (uint32_t)x + 0x20000000;
+    if (x < 0)
+    { /* convert negative numbers to corresponding positive ones */
+        x = (uint32_t)x + 0x80000000;
+    }
 
-  /* Calculate the nearest index */
-  index = (uint32_t)x >> FAST_MATH_Q31_SHIFT;
+    /* Calculate the nearest index */
+    index = (uint32_t)x >> FAST_MATH_Q31_SHIFT;
 
-  /* Calculation of fractional value */
-  fract = (x - (index << FAST_MATH_Q31_SHIFT)) << 9;
+    /* Calculation of fractional value */
+    fract = (x - (index << FAST_MATH_Q31_SHIFT)) << 9;
 
-  /* Read two nearest values of input value from the sin table */
-  a = sinTable_q31[index];
-  b = sinTable_q31[index+1];
+    /* Read two nearest values of input value from the sin table */
+    a = sinTable_q31[index];
+    b = sinTable_q31[index + 1];
 
-  /* Linear interpolation process */
-  cosVal = (q63_t)(0x80000000-fract)*a >> 32;
-  cosVal = (q31_t)((((q63_t)cosVal << 32) + ((q63_t)fract*b)) >> 32);
+    /* Linear interpolation process */
+    cosVal = (q63_t)(0x80000000 - fract) * a >> 32;
+    cosVal = (q31_t)((((q63_t)cosVal << 32) + ((q63_t)fract * b)) >> 32);
 
-  return cosVal << 1;
+    return cosVal << 1;
 }
 
 /**

@@ -26,14 +26,14 @@
  * limitations under the License.
  */
 
-#include "arm_math.h"
 #include "arm_common_tables.h"
+#include "arm_math.h"
 
 /**
  * @ingroup groupFastMath
  */
 
- /**
+/**
  * @addtogroup sin
  * @{
  */
@@ -43,32 +43,32 @@
  * @param[in] x Scaled input value in radians.
  * @return  sin(x).
  *
- * The Q15 input value is in the range [0 +0.9999] and is mapped to a radian value in the range [0 2*pi).
+ * The Q15 input value is in the range [0 +0.9999] and is mapped to a radian
+ * value in the range [0 2*pi).
  */
 
-q15_t arm_sin_q15(
-  q15_t x)
+q15_t arm_sin_q15(q15_t x)
 {
-  q15_t sinVal;                                  /* Temporary variables for input, output */
-  int32_t index;                                 /* Index variables */
-  q15_t a, b;                                    /* Four nearest output values */
-  q15_t fract;                                   /* Temporary values for fractional values */
+    q15_t sinVal;  /* Temporary variables for input, output */
+    int32_t index; /* Index variables */
+    q15_t a, b;    /* Four nearest output values */
+    q15_t fract;   /* Temporary values for fractional values */
 
-  /* Calculate the nearest index */
-  index = (uint32_t)x >> FAST_MATH_Q15_SHIFT;
+    /* Calculate the nearest index */
+    index = (uint32_t)x >> FAST_MATH_Q15_SHIFT;
 
-  /* Calculation of fractional value */
-  fract = (x - (index << FAST_MATH_Q15_SHIFT)) << 9;
+    /* Calculation of fractional value */
+    fract = (x - (index << FAST_MATH_Q15_SHIFT)) << 9;
 
-  /* Read two nearest values of input value from the sin table */
-  a = sinTable_q15[index];
-  b = sinTable_q15[index+1];
+    /* Read two nearest values of input value from the sin table */
+    a = sinTable_q15[index];
+    b = sinTable_q15[index + 1];
 
-  /* Linear interpolation process */
-  sinVal = (q31_t)(0x8000-fract)*a >> 16;
-  sinVal = (q15_t)((((q31_t)sinVal << 16) + ((q31_t)fract*b)) >> 16);
+    /* Linear interpolation process */
+    sinVal = (q31_t)(0x8000 - fract) * a >> 16;
+    sinVal = (q15_t)((((q31_t)sinVal << 16) + ((q31_t)fract * b)) >> 16);
 
-  return sinVal << 1;
+    return sinVal << 1;
 }
 
 /**

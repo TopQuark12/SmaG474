@@ -1,19 +1,18 @@
-#include "jtest.h"
-#include "basic_math_test_data.h"
+#include "arm_math.h" /* FUTs */
 #include "arr_desc.h"
-#include "arm_math.h"           /* FUTs */
-#include "ref.h"                /* Reference Functions */
-#include "test_templates.h"
 #include "basic_math_templates.h"
+#include "basic_math_test_data.h"
+#include "jtest.h"
+#include "ref.h" /* Reference Functions */
+#include "test_templates.h"
 #include "type_abbrev.h"
 
-#define JTEST_ARM_OFFSET_TEST(suffix)               \
-    BASIC_MATH_DEFINE_TEST_TEMPLATE_BUF1_ELT1_BLK(  \
-        offset,                                     \
-        suffix,                                     \
-        TYPE_FROM_ABBREV(suffix),                   \
-        TYPE_FROM_ABBREV(suffix),                   \
-        TYPE_FROM_ABBREV(suffix))
+#define JTEST_ARM_OFFSET_TEST(suffix)                                       \
+    BASIC_MATH_DEFINE_TEST_TEMPLATE_BUF1_ELT1_BLK(offset,                   \
+                                                  suffix,                   \
+                                                  TYPE_FROM_ABBREV(suffix), \
+                                                  TYPE_FROM_ABBREV(suffix), \
+                                                  TYPE_FROM_ABBREV(suffix))
 
 JTEST_ARM_OFFSET_TEST(f32);
 JTEST_ARM_OFFSET_TEST(q31);

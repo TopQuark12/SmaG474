@@ -1,14 +1,14 @@
-#include "jtest.h"
 #include "basic_math_test_group.h"
 #include "complex_math_test_group.h"
 #include "controller_test_group.h"
 #include "fast_math_test_group.h"
 #include "filtering_test_group.h"
+#include "intrinsics_test_group.h"
+#include "jtest.h"
 #include "matrix_test_group.h"
 #include "statistics_test_group.h"
 #include "support_test_group.h"
 #include "transform_test_group.h"
-#include "intrinsics_test_group.h"
 
 JTEST_DEFINE_GROUP(all_tests)
 {

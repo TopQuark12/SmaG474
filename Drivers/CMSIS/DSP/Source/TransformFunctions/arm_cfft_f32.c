@@ -1,7 +1,8 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_cfft_f32.c
- * Description:  Combined Radix Decimation in Frequency CFFT Floating point processing function
+ * Description:  Combined Radix Decimation in Frequency CFFT Floating point
+ * processing function
  *
  * $Date:        27. January 2017
  * $Revision:    V.1.5.1
@@ -26,178 +27,165 @@
  * limitations under the License.
  */
 
-#include "arm_math.h"
 #include "arm_common_tables.h"
+#include "arm_math.h"
 
-extern void arm_radix8_butterfly_f32(
-    float32_t * pSrc,
-    uint16_t fftLen,
-    const float32_t * pCoef,
-    uint16_t twidCoefModifier);
+extern void arm_radix8_butterfly_f32(float32_t *pSrc,
+                                     uint16_t fftLen,
+                                     const float32_t *pCoef,
+                                     uint16_t twidCoefModifier);
 
-extern void arm_bitreversal_32(
-    uint32_t * pSrc,
-    const uint16_t bitRevLen,
-    const uint16_t * pBitRevTable);
-
-/**
-* @ingroup groupTransforms
-*/
+extern void arm_bitreversal_32(uint32_t *pSrc,
+                               const uint16_t bitRevLen,
+                               const uint16_t *pBitRevTable);
 
 /**
-* @defgroup ComplexFFT Complex FFT Functions
-*
-* \par
-* The Fast Fourier Transform (FFT) is an efficient algorithm for computing the
-* Discrete Fourier Transform (DFT).  The FFT can be orders of magnitude faster
-* than the DFT, especially for long lengths.
-* The algorithms described in this section
-* operate on complex data.  A separate set of functions is devoted to handling
-* of real sequences.
-* \par
-* There are separate algorithms for handling floating-point, Q15, and Q31 data
-* types.  The algorithms available for each data type are described next.
-* \par
-* The FFT functions operate in-place.  That is, the array holding the input data
-* will also be used to hold the corresponding result.  The input data is complex
-* and contains <code>2*fftLen</code> interleaved values as shown below.
-* <pre> {real[0], imag[0], real[1], imag[1],..} </pre>
-* The FFT result will be contained in the same array and the frequency domain
-* values will have the same interleaving.
-*
-* \par Floating-point
-* The floating-point complex FFT uses a mixed-radix algorithm.  Multiple radix-8
-* stages are performed along with a single radix-2 or radix-4 stage, as needed.
-* The algorithm supports lengths of [16, 32, 64, ..., 4096] and each length uses
-* a different twiddle factor table.
-* \par
-* The function uses the standard FFT definition and output values may grow by a
-* factor of <code>fftLen</code> when computing the forward transform.  The
-* inverse transform includes a scale of <code>1/fftLen</code> as part of the
-* calculation and this matches the textbook definition of the inverse FFT.
-* \par
-* Pre-initialized data structures containing twiddle factors and bit reversal
-* tables are provided and defined in <code>arm_const_structs.h</code>.  Include
-* this header in your function and then pass one of the constant structures as
-* an argument to arm_cfft_f32.  For example:
-* \par
-* <code>arm_cfft_f32(arm_cfft_sR_f32_len64, pSrc, 1, 1)</code>
-* \par
-* computes a 64-point inverse complex FFT including bit reversal.
-* The data structures are treated as constant data and not modified during the
-* calculation.  The same data structure can be reused for multiple transforms
-* including mixing forward and inverse transforms.
-* \par
-* Earlier releases of the library provided separate radix-2 and radix-4
-* algorithms that operated on floating-point data.  These functions are still
-* provided but are deprecated.  The older functions are slower and less general
-* than the new functions.
-* \par
-* An example of initialization of the constants for the arm_cfft_f32 function follows:
-* \code
-* const static arm_cfft_instance_f32 *S;
-* ...
-*   switch (length) {
-*     case 16:
-*       S = &arm_cfft_sR_f32_len16;
-*       break;
-*     case 32:
-*       S = &arm_cfft_sR_f32_len32;
-*       break;
-*     case 64:
-*       S = &arm_cfft_sR_f32_len64;
-*       break;
-*     case 128:
-*       S = &arm_cfft_sR_f32_len128;
-*       break;
-*     case 256:
-*       S = &arm_cfft_sR_f32_len256;
-*       break;
-*     case 512:
-*       S = &arm_cfft_sR_f32_len512;
-*       break;
-*     case 1024:
-*       S = &arm_cfft_sR_f32_len1024;
-*       break;
-*     case 2048:
-*       S = &arm_cfft_sR_f32_len2048;
-*       break;
-*     case 4096:
-*       S = &arm_cfft_sR_f32_len4096;
-*       break;
-*   }
-* \endcode
-* \par Q15 and Q31
-* The floating-point complex FFT uses a mixed-radix algorithm.  Multiple radix-4
-* stages are performed along with a single radix-2 stage, as needed.
-* The algorithm supports lengths of [16, 32, 64, ..., 4096] and each length uses
-* a different twiddle factor table.
-* \par
-* The function uses the standard FFT definition and output values may grow by a
-* factor of <code>fftLen</code> when computing the forward transform.  The
-* inverse transform includes a scale of <code>1/fftLen</code> as part of the
-* calculation and this matches the textbook definition of the inverse FFT.
-* \par
-* Pre-initialized data structures containing twiddle factors and bit reversal
-* tables are provided and defined in <code>arm_const_structs.h</code>.  Include
-* this header in your function and then pass one of the constant structures as
-* an argument to arm_cfft_q31.  For example:
-* \par
-* <code>arm_cfft_q31(arm_cfft_sR_q31_len64, pSrc, 1, 1)</code>
-* \par
-* computes a 64-point inverse complex FFT including bit reversal.
-* The data structures are treated as constant data and not modified during the
-* calculation.  The same data structure can be reused for multiple transforms
-* including mixing forward and inverse transforms.
-* \par
-* Earlier releases of the library provided separate radix-2 and radix-4
-* algorithms that operated on floating-point data.  These functions are still
-* provided but are deprecated.  The older functions are slower and less general
-* than the new functions.
-* \par
-* An example of initialization of the constants for the arm_cfft_q31 function follows:
-* \code
-* const static arm_cfft_instance_q31 *S;
-* ...
-*   switch (length) {
-*     case 16:
-*       S = &arm_cfft_sR_q31_len16;
-*       break;
-*     case 32:
-*       S = &arm_cfft_sR_q31_len32;
-*       break;
-*     case 64:
-*       S = &arm_cfft_sR_q31_len64;
-*       break;
-*     case 128:
-*       S = &arm_cfft_sR_q31_len128;
-*       break;
-*     case 256:
-*       S = &arm_cfft_sR_q31_len256;
-*       break;
-*     case 512:
-*       S = &arm_cfft_sR_q31_len512;
-*       break;
-*     case 1024:
-*       S = &arm_cfft_sR_q31_len1024;
-*       break;
-*     case 2048:
-*       S = &arm_cfft_sR_q31_len2048;
-*       break;
-*     case 4096:
-*       S = &arm_cfft_sR_q31_len4096;
-*       break;
-*   }
-* \endcode
-*
-*/
+ * @ingroup groupTransforms
+ */
 
-void arm_cfft_radix8by2_f32( arm_cfft_instance_f32 * S, float32_t * p1)
+/**
+ * @defgroup ComplexFFT Complex FFT Functions
+ *
+ * \par
+ * The Fast Fourier Transform (FFT) is an efficient algorithm for computing the
+ * Discrete Fourier Transform (DFT).  The FFT can be orders of magnitude faster
+ * than the DFT, especially for long lengths.
+ * The algorithms described in this section
+ * operate on complex data.  A separate set of functions is devoted to handling
+ * of real sequences.
+ * \par
+ * There are separate algorithms for handling floating-point, Q15, and Q31 data
+ * types.  The algorithms available for each data type are described next.
+ * \par
+ * The FFT functions operate in-place.  That is, the array holding the input
+ * data will also be used to hold the corresponding result.  The input data is
+ * complex and contains <code>2*fftLen</code> interleaved values as shown below.
+ * <pre> {real[0], imag[0], real[1], imag[1],..} </pre>
+ * The FFT result will be contained in the same array and the frequency domain
+ * values will have the same interleaving.
+ *
+ * \par Floating-point
+ * The floating-point complex FFT uses a mixed-radix algorithm.  Multiple
+ * radix-8 stages are performed along with a single radix-2 or radix-4 stage, as
+ * needed. The algorithm supports lengths of [16, 32, 64, ..., 4096] and each
+ * length uses a different twiddle factor table. \par The function uses the
+ * standard FFT definition and output values may grow by a factor of
+ * <code>fftLen</code> when computing the forward transform.  The inverse
+ * transform includes a scale of <code>1/fftLen</code> as part of the
+ * calculation and this matches the textbook definition of the inverse FFT.
+ * \par
+ * Pre-initialized data structures containing twiddle factors and bit reversal
+ * tables are provided and defined in <code>arm_const_structs.h</code>.  Include
+ * this header in your function and then pass one of the constant structures as
+ * an argument to arm_cfft_f32.  For example:
+ * \par
+ * <code>arm_cfft_f32(arm_cfft_sR_f32_len64, pSrc, 1, 1)</code>
+ * \par
+ * computes a 64-point inverse complex FFT including bit reversal.
+ * The data structures are treated as constant data and not modified during the
+ * calculation.  The same data structure can be reused for multiple transforms
+ * including mixing forward and inverse transforms.
+ * \par
+ * Earlier releases of the library provided separate radix-2 and radix-4
+ * algorithms that operated on floating-point data.  These functions are still
+ * provided but are deprecated.  The older functions are slower and less general
+ * than the new functions.
+ * \par
+ * An example of initialization of the constants for the arm_cfft_f32 function
+ * follows: \code const static arm_cfft_instance_f32 *S;
+ * ...
+ *   switch (length) {
+ *     case 16:
+ *       S = &arm_cfft_sR_f32_len16;
+ *       break;
+ *     case 32:
+ *       S = &arm_cfft_sR_f32_len32;
+ *       break;
+ *     case 64:
+ *       S = &arm_cfft_sR_f32_len64;
+ *       break;
+ *     case 128:
+ *       S = &arm_cfft_sR_f32_len128;
+ *       break;
+ *     case 256:
+ *       S = &arm_cfft_sR_f32_len256;
+ *       break;
+ *     case 512:
+ *       S = &arm_cfft_sR_f32_len512;
+ *       break;
+ *     case 1024:
+ *       S = &arm_cfft_sR_f32_len1024;
+ *       break;
+ *     case 2048:
+ *       S = &arm_cfft_sR_f32_len2048;
+ *       break;
+ *     case 4096:
+ *       S = &arm_cfft_sR_f32_len4096;
+ *       break;
+ *   }
+ * \endcode
+ * \par Q15 and Q31
+ * The floating-point complex FFT uses a mixed-radix algorithm.  Multiple
+ * radix-4 stages are performed along with a single radix-2 stage, as needed.
+ * The algorithm supports lengths of [16, 32, 64, ..., 4096] and each length
+ * uses a different twiddle factor table. \par The function uses the standard
+ * FFT definition and output values may grow by a factor of <code>fftLen</code>
+ * when computing the forward transform.  The inverse transform includes a scale
+ * of <code>1/fftLen</code> as part of the calculation and this matches the
+ * textbook definition of the inverse FFT. \par Pre-initialized data structures
+ * containing twiddle factors and bit reversal tables are provided and defined
+ * in <code>arm_const_structs.h</code>.  Include this header in your function
+ * and then pass one of the constant structures as an argument to arm_cfft_q31.
+ * For example: \par <code>arm_cfft_q31(arm_cfft_sR_q31_len64, pSrc, 1,
+ * 1)</code> \par computes a 64-point inverse complex FFT including bit
+ * reversal. The data structures are treated as constant data and not modified
+ * during the calculation.  The same data structure can be reused for multiple
+ * transforms including mixing forward and inverse transforms. \par Earlier
+ * releases of the library provided separate radix-2 and radix-4 algorithms that
+ * operated on floating-point data.  These functions are still provided but are
+ * deprecated.  The older functions are slower and less general than the new
+ * functions. \par An example of initialization of the constants for the
+ * arm_cfft_q31 function follows: \code const static arm_cfft_instance_q31 *S;
+ * ...
+ *   switch (length) {
+ *     case 16:
+ *       S = &arm_cfft_sR_q31_len16;
+ *       break;
+ *     case 32:
+ *       S = &arm_cfft_sR_q31_len32;
+ *       break;
+ *     case 64:
+ *       S = &arm_cfft_sR_q31_len64;
+ *       break;
+ *     case 128:
+ *       S = &arm_cfft_sR_q31_len128;
+ *       break;
+ *     case 256:
+ *       S = &arm_cfft_sR_q31_len256;
+ *       break;
+ *     case 512:
+ *       S = &arm_cfft_sR_q31_len512;
+ *       break;
+ *     case 1024:
+ *       S = &arm_cfft_sR_q31_len1024;
+ *       break;
+ *     case 2048:
+ *       S = &arm_cfft_sR_q31_len2048;
+ *       break;
+ *     case 4096:
+ *       S = &arm_cfft_sR_q31_len4096;
+ *       break;
+ *   }
+ * \endcode
+ *
+ */
+
+void arm_cfft_radix8by2_f32(arm_cfft_instance_f32 *S, float32_t *p1)
 {
-    uint32_t    L  = S->fftLen;
-    float32_t * pCol1, * pCol2, * pMid1, * pMid2;
-    float32_t * p2 = p1 + L;
-    const float32_t * tw = (float32_t *) S->pTwiddle;
+    uint32_t L = S->fftLen;
+    float32_t *pCol1, *pCol2, *pMid1, *pMid2;
+    float32_t *p2 = p1 + L;
+    const float32_t *tw = (float32_t *)S->pTwiddle;
     float32_t t1[4], t2[4], t3[4], t4[4], twR, twI;
     float32_t m0, m1, m2, m3;
     uint32_t l;
@@ -212,7 +200,7 @@ void arm_cfft_radix8by2_f32( arm_cfft_instance_f32 * S, float32_t * p1)
     pMid2 = p2 + L;
 
     // do two dot Fourier transform
-    for ( l = L >> 2; l > 0; l-- )
+    for (l = L >> 2; l > 0; l--)
     {
         t1[0] = p1[0];
         t1[1] = p1[1];
@@ -237,22 +225,22 @@ void arm_cfft_radix8by2_f32( arm_cfft_instance_f32 * S, float32_t * p1)
         *p1++ = t1[0] + t2[0];
         *p1++ = t1[1] + t2[1];
         *p1++ = t1[2] + t2[2];
-        *p1++ = t1[3] + t2[3];    // col 1
+        *p1++ = t1[3] + t2[3];  // col 1
 
         t2[0] = t1[0] - t2[0];
         t2[1] = t1[1] - t2[1];
         t2[2] = t1[2] - t2[2];
-        t2[3] = t1[3] - t2[3];    // for col 2
+        t2[3] = t1[3] - t2[3];  // for col 2
 
         *pMid1++ = t3[0] + t4[0];
         *pMid1++ = t3[1] + t4[1];
         *pMid1++ = t3[2] + t4[2];
-        *pMid1++ = t3[3] + t4[3]; // col 1
+        *pMid1++ = t3[3] + t4[3];  // col 1
 
         t4[0] = t4[0] - t3[0];
         t4[1] = t4[1] - t3[1];
         t4[2] = t4[2] - t3[2];
-        t4[3] = t4[3] - t3[3];    // for col 2
+        t4[3] = t4[3] - t3[3];  // for col 2
 
         twR = *tw++;
         twI = *tw++;
@@ -299,34 +287,34 @@ void arm_cfft_radix8by2_f32( arm_cfft_instance_f32 * S, float32_t * p1)
     }
 
     // first col
-    arm_radix8_butterfly_f32( pCol1, L, (float32_t *) S->pTwiddle, 2U);
+    arm_radix8_butterfly_f32(pCol1, L, (float32_t *)S->pTwiddle, 2U);
     // second col
-    arm_radix8_butterfly_f32( pCol2, L, (float32_t *) S->pTwiddle, 2U);
+    arm_radix8_butterfly_f32(pCol2, L, (float32_t *)S->pTwiddle, 2U);
 }
 
-void arm_cfft_radix8by4_f32( arm_cfft_instance_f32 * S, float32_t * p1)
+void arm_cfft_radix8by4_f32(arm_cfft_instance_f32 *S, float32_t *p1)
 {
-    uint32_t    L  = S->fftLen >> 1;
-    float32_t * pCol1, *pCol2, *pCol3, *pCol4, *pEnd1, *pEnd2, *pEnd3, *pEnd4;
+    uint32_t L = S->fftLen >> 1;
+    float32_t *pCol1, *pCol2, *pCol3, *pCol4, *pEnd1, *pEnd2, *pEnd3, *pEnd4;
     const float32_t *tw2, *tw3, *tw4;
-    float32_t * p2 = p1 + L;
-    float32_t * p3 = p2 + L;
-    float32_t * p4 = p3 + L;
+    float32_t *p2 = p1 + L;
+    float32_t *p3 = p2 + L;
+    float32_t *p4 = p3 + L;
     float32_t t2[4], t3[4], t4[4], twR, twI;
     float32_t p1ap3_0, p1sp3_0, p1ap3_1, p1sp3_1;
     float32_t m0, m1, m2, m3;
     uint32_t l, twMod2, twMod3, twMod4;
 
-    pCol1 = p1;         // points to real values by default
+    pCol1 = p1;  // points to real values by default
     pCol2 = p2;
     pCol3 = p3;
     pCol4 = p4;
-    pEnd1 = p2 - 1;     // points to imaginary values by default
+    pEnd1 = p2 - 1;  // points to imaginary values by default
     pEnd2 = p3 - 1;
     pEnd3 = p4 - 1;
     pEnd4 = pEnd3 + L;
 
-    tw2 = tw3 = tw4 = (float32_t *) S->pTwiddle;
+    tw2 = tw3 = tw4 = (float32_t *)S->pTwiddle;
 
     L >>= 1;
 
@@ -367,7 +355,7 @@ void arm_cfft_radix8by4_f32( arm_cfft_instance_f32 * S, float32_t * p1)
     tw3 += twMod3;
     tw4 += twMod4;
 
-    for (l = (L - 2) >> 1; l > 0; l-- )
+    for (l = (L - 2) >> 1; l > 0; l--)
     {
         // TOP
         p1ap3_0 = p1[0] + p3[0];
@@ -393,13 +381,13 @@ void arm_cfft_radix8by4_f32( arm_cfft_instance_f32 * S, float32_t * p1)
         p1ap3_0 = pEnd1[0] + pEnd3[0];
         p1sp3_0 = pEnd1[0] - pEnd3[0];
         // col 2
-        t2[2] = pEnd2[0]  - pEnd4[0] + p1sp3_1;
+        t2[2] = pEnd2[0] - pEnd4[0] + p1sp3_1;
         t2[3] = pEnd1[0] - pEnd3[0] - pEnd2[-1] + pEnd4[-1];
         // col 3
         t3[2] = p1ap3_1 - pEnd2[-1] - pEnd4[-1];
-        t3[3] = p1ap3_0 - pEnd2[0]  - pEnd4[0];
+        t3[3] = p1ap3_0 - pEnd2[0] - pEnd4[0];
         // col 4
-        t4[2] = pEnd2[0]  - pEnd4[0]  - p1sp3_1;
+        t4[2] = pEnd2[0] - pEnd4[0] - p1sp3_1;
         t4[3] = pEnd4[-1] - pEnd2[-1] - p1sp3_0;
         // col 1 - Bottom
         *pEnd1-- = p1ap3_0 + pEnd2[0] + pEnd4[0];
@@ -479,7 +467,7 @@ void arm_cfft_radix8by4_f32( arm_cfft_instance_f32 * S, float32_t * p1)
         *pEnd4-- = m2 + m3;
     }
 
-    //MIDDLE
+    // MIDDLE
     // Twiddle factors are
     //  1.0000  0.7071-0.7071i  -1.0000i  -0.7071-0.7071i
     p1ap3_0 = p1[0] + p3[0];
@@ -535,44 +523,47 @@ void arm_cfft_radix8by4_f32( arm_cfft_instance_f32 * S, float32_t * p1)
     *p4++ = m2 - m3;
 
     // first col
-    arm_radix8_butterfly_f32( pCol1, L, (float32_t *) S->pTwiddle, 4U);
+    arm_radix8_butterfly_f32(pCol1, L, (float32_t *)S->pTwiddle, 4U);
     // second col
-    arm_radix8_butterfly_f32( pCol2, L, (float32_t *) S->pTwiddle, 4U);
+    arm_radix8_butterfly_f32(pCol2, L, (float32_t *)S->pTwiddle, 4U);
     // third col
-    arm_radix8_butterfly_f32( pCol3, L, (float32_t *) S->pTwiddle, 4U);
+    arm_radix8_butterfly_f32(pCol3, L, (float32_t *)S->pTwiddle, 4U);
     // fourth col
-    arm_radix8_butterfly_f32( pCol4, L, (float32_t *) S->pTwiddle, 4U);
+    arm_radix8_butterfly_f32(pCol4, L, (float32_t *)S->pTwiddle, 4U);
 }
 
 /**
-* @addtogroup ComplexFFT
-* @{
-*/
+ * @addtogroup ComplexFFT
+ * @{
+ */
 
 /**
-* @details
-* @brief       Processing function for the floating-point complex FFT.
-* @param[in]      *S    points to an instance of the floating-point CFFT structure.
-* @param[in, out] *p1   points to the complex data buffer of size <code>2*fftLen</code>. Processing occurs in-place.
-* @param[in]     ifftFlag       flag that selects forward (ifftFlag=0) or inverse (ifftFlag=1) transform.
-* @param[in]     bitReverseFlag flag that enables (bitReverseFlag=1) or disables (bitReverseFlag=0) bit reversal of output.
-* @return none.
-*/
+ * @details
+ * @brief       Processing function for the floating-point complex FFT.
+ * @param[in]      *S    points to an instance of the floating-point CFFT
+ * structure.
+ * @param[in, out] *p1   points to the complex data buffer of size
+ * <code>2*fftLen</code>. Processing occurs in-place.
+ * @param[in]     ifftFlag       flag that selects forward (ifftFlag=0) or
+ * inverse (ifftFlag=1) transform.
+ * @param[in]     bitReverseFlag flag that enables (bitReverseFlag=1) or
+ * disables (bitReverseFlag=0) bit reversal of output.
+ * @return none.
+ */
 
-void arm_cfft_f32(
-    const arm_cfft_instance_f32 * S,
-    float32_t * p1,
-    uint8_t ifftFlag,
-    uint8_t bitReverseFlag)
+void arm_cfft_f32(const arm_cfft_instance_f32 *S,
+                  float32_t *p1,
+                  uint8_t ifftFlag,
+                  uint8_t bitReverseFlag)
 {
-    uint32_t  L = S->fftLen, l;
-    float32_t invL, * pSrc;
+    uint32_t L = S->fftLen, l;
+    float32_t invL, *pSrc;
 
     if (ifftFlag == 1U)
     {
         /*  Conjugate input data  */
         pSrc = p1 + 1;
-        for(l=0; l<L; l++)
+        for (l = 0; l < L; l++)
         {
             *pSrc = -*pSrc;
             pSrc += 2;
@@ -584,37 +575,37 @@ void arm_cfft_f32(
     case 16:
     case 128:
     case 1024:
-        arm_cfft_radix8by2_f32  ( (arm_cfft_instance_f32 *) S, p1);
+        arm_cfft_radix8by2_f32((arm_cfft_instance_f32 *)S, p1);
         break;
     case 32:
     case 256:
     case 2048:
-        arm_cfft_radix8by4_f32  ( (arm_cfft_instance_f32 *) S, p1);
+        arm_cfft_radix8by4_f32((arm_cfft_instance_f32 *)S, p1);
         break;
     case 64:
     case 512:
     case 4096:
-        arm_radix8_butterfly_f32( p1, L, (float32_t *) S->pTwiddle, 1);
+        arm_radix8_butterfly_f32(p1, L, (float32_t *)S->pTwiddle, 1);
         break;
     }
 
-    if ( bitReverseFlag )
-        arm_bitreversal_32((uint32_t*)p1,S->bitRevLength,S->pBitRevTable);
+    if (bitReverseFlag)
+        arm_bitreversal_32((uint32_t *)p1, S->bitRevLength, S->pBitRevTable);
 
     if (ifftFlag == 1U)
     {
-        invL = 1.0f/(float32_t)L;
+        invL = 1.0f / (float32_t)L;
         /*  Conjugate and scale output data */
         pSrc = p1;
-        for(l=0; l<L; l++)
+        for (l = 0; l < L; l++)
         {
-            *pSrc++ *=   invL ;
-            *pSrc  = -(*pSrc) * invL;
+            *pSrc++ *= invL;
+            *pSrc = -(*pSrc) * invL;
             pSrc++;
         }
     }
 }
 
 /**
-* @} end of ComplexFFT group
-*/
+ * @} end of ComplexFFT group
+ */
