@@ -10,5 +10,19 @@
  */
 
 #include "adc.h"
+#include "dac.h"
+#include "main.h"
+#include "tim.h"
 
-void smaAfeInit(void) {}
+uint16_t adcDataRaw[2];
+
+void smaAfeInit(void)
+{
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcDataRaw, 2);
+    HAL_TIM_Base_Start(&htim2);
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}

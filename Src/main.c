@@ -29,7 +29,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "smaAFE.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,10 +96,10 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_DAC1_Init();
-  MX_TIM6_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+    smaAfeInit();
   /* USER CODE END 2 */
 
   /* Infinite loop */
