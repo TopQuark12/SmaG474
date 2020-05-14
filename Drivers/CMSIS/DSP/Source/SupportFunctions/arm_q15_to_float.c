@@ -1,8 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_q15_to_float.c
- * Description:  Converts the elements of the Q15 vector to floating-point
- * vector
+ * Description:  Converts the elements of the Q15 vector to floating-point vector
  *
  * $Date:        27. January 2017
  * $Revision:    V.1.5.1
@@ -42,6 +41,9 @@
  * @{
  */
 
+
+
+
 /**
  * @brief  Converts the elements of the Q15 vector to floating-point vector.
  * @param[in]       *pSrc points to the Q15 input vector
@@ -59,59 +61,60 @@
  *
  */
 
-void arm_q15_to_float(q15_t *pSrc, float32_t *pDst, uint32_t blockSize)
+
+void arm_q15_to_float(
+  q15_t * pSrc,
+  float32_t * pDst,
+  uint32_t blockSize)
 {
-    q15_t *pIn = pSrc; /* Src pointer */
-    uint32_t blkCnt;   /* loop counter */
+  q15_t *pIn = pSrc;                             /* Src pointer */
+  uint32_t blkCnt;                               /* loop counter */
 
-#if defined(ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
+#if defined (ARM_MATH_DSP)
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
+  /* Run the below code for Cortex-M4 and Cortex-M3 */
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* C = (float32_t) A / 32768 */
-        /* convert from q15 to float and then store the results in the
-         * destination buffer */
-        *pDst++ = ((float32_t)*pIn++ / 32768.0f);
-        *pDst++ = ((float32_t)*pIn++ / 32768.0f);
-        *pDst++ = ((float32_t)*pIn++ / 32768.0f);
-        *pDst++ = ((float32_t)*pIn++ / 32768.0f);
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* C = (float32_t) A / 32768 */
+    /* convert from q15 to float and then store the results in the destination buffer */
+    *pDst++ = ((float32_t) * pIn++ / 32768.0f);
+    *pDst++ = ((float32_t) * pIn++ / 32768.0f);
+    *pDst++ = ((float32_t) * pIn++ / 32768.0f);
+    *pDst++ = ((float32_t) * pIn++ / 32768.0f);
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
+
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Loop over blockSize number of values */
-    blkCnt = blockSize;
+  /* Loop over blockSize number of values */
+  blkCnt = blockSize;
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-    while (blkCnt > 0U)
-    {
-        /* C = (float32_t) A / 32768 */
-        /* convert from q15 to float and then store the results in the
-         * destination buffer */
-        *pDst++ = ((float32_t)*pIn++ / 32768.0f);
+  while (blkCnt > 0U)
+  {
+    /* C = (float32_t) A / 32768 */
+    /* convert from q15 to float and then store the results in the destination buffer */
+    *pDst++ = ((float32_t) * pIn++ / 32768.0f);
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 }
 
 /**

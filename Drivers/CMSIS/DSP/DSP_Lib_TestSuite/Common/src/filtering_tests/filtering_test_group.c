@@ -1,5 +1,5 @@
-#include "filtering_tests.h"
 #include "jtest.h"
+#include "filtering_tests.h"
 
 JTEST_DEFINE_GROUP(filtering_tests)
 {

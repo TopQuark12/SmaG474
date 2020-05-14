@@ -46,62 +46,64 @@
  *
  */
 
-void arm_copy_q31(q31_t *pSrc, q31_t *pDst, uint32_t blockSize)
+void arm_copy_q31(
+  q31_t * pSrc,
+  q31_t * pDst,
+  uint32_t blockSize)
 {
-    uint32_t blkCnt; /* loop counter */
+  uint32_t blkCnt;                               /* loop counter */
 
-#if defined(ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
-    q31_t in1, in2, in3, in4;
+#if defined (ARM_MATH_DSP)
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
+  /* Run the below code for Cortex-M4 and Cortex-M3 */
+  q31_t in1, in2, in3, in4;
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* C = A */
-        /* Copy and then store the values in the destination buffer */
-        in1 = *pSrc++;
-        in2 = *pSrc++;
-        in3 = *pSrc++;
-        in4 = *pSrc++;
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        *pDst++ = in1;
-        *pDst++ = in2;
-        *pDst++ = in3;
-        *pDst++ = in4;
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* C = A */
+    /* Copy and then store the values in the destination buffer */
+    in1 = *pSrc++;
+    in2 = *pSrc++;
+    in3 = *pSrc++;
+    in4 = *pSrc++;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    *pDst++ = in1;
+    *pDst++ = in2;
+    *pDst++ = in3;
+    *pDst++ = in4;
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
+
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Loop over blockSize number of values */
-    blkCnt = blockSize;
+  /* Loop over blockSize number of values */
+  blkCnt = blockSize;
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-    while (blkCnt > 0U)
-    {
-        /* C = A */
-        /* Copy and then store the value in the destination buffer */
-        *pDst++ = *pSrc++;
+  while (blkCnt > 0U)
+  {
+    /* C = A */
+    /* Copy and then store the value in the destination buffer */
+    *pDst++ = *pSrc++;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 }
 
 /**

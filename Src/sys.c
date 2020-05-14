@@ -1,21 +1,11 @@
 /**
- ******************************************************************************
- * File Name          : SYS.c
- * Description        : This file provides code for the configuration
- *                      of the SYS instances.
- ******************************************************************************
- * @attention
- *
- * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
- * All rights reserved.</center></h2>
- *
- * This software component is licensed by ST under BSD 3-Clause license,
- * the "License"; You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at:
- *                        opensource.org/licenses/BSD-3-Clause
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * File Name          : SYS.c
+  * Description        : This file provides code for the configuration
+  *                      of the SYS instances.
+  ******************************************************************************
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "sys.h"
@@ -27,9 +17,11 @@
 /* SYS init function */
 void MX_SYS_Init(void)
 {
-    /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
-     */
-    LL_PWR_DisableDeadBatteryPD();
+
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral 
+  */
+  LL_PWR_DisableDeadBatteryPD();
+
 }
 
 /* USER CODE BEGIN 1 */

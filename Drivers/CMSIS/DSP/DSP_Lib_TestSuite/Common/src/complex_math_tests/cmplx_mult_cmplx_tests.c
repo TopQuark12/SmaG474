@@ -1,10 +1,10 @@
-#include "arm_math.h" /* FUTs */
-#include "arr_desc.h"
-#include "complex_math_templates.h"
-#include "complex_math_test_data.h"
 #include "jtest.h"
-#include "ref.h" /* Reference Functions */
+#include "complex_math_test_data.h"
+#include "arr_desc.h"
+#include "arm_math.h"           /* FUTs */
+#include "ref.h"                /* Reference Functions */
 #include "test_templates.h"
+#include "complex_math_templates.h"
 #include "type_abbrev.h"
 
 #define JTEST_ARM_CMPLX_MULT_CMPLX_TEST(suffix) \

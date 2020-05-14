@@ -1,8 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_cfft_q31.c
- * Description:  Combined Radix Decimation in Frequency CFFT fixed point
- * processing function
+ * Description:  Combined Radix Decimation in Frequency CFFT fixed point processing function
  *
  * $Date:        27. January 2017
  * $Revision:    V.1.5.1
@@ -29,54 +28,57 @@
 
 #include "arm_math.h"
 
-extern void arm_radix4_butterfly_q31(q31_t *pSrc,
-                                     uint32_t fftLen,
-                                     q31_t *pCoef,
-                                     uint32_t twidCoefModifier);
+extern void arm_radix4_butterfly_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    q31_t * pCoef,
+    uint32_t twidCoefModifier);
 
-extern void arm_radix4_butterfly_inverse_q31(q31_t *pSrc,
-                                             uint32_t fftLen,
-                                             q31_t *pCoef,
-                                             uint32_t twidCoefModifier);
+extern void arm_radix4_butterfly_inverse_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    q31_t * pCoef,
+    uint32_t twidCoefModifier);
 
-extern void arm_bitreversal_32(uint32_t *pSrc,
-                               const uint16_t bitRevLen,
-                               const uint16_t *pBitRevTable);
+extern void arm_bitreversal_32(
+    uint32_t * pSrc,
+    const uint16_t bitRevLen,
+    const uint16_t * pBitRevTable);
 
-void arm_cfft_radix4by2_q31(q31_t *pSrc, uint32_t fftLen, const q31_t *pCoef);
+void arm_cfft_radix4by2_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    const q31_t * pCoef);
 
-void arm_cfft_radix4by2_inverse_q31(q31_t *pSrc,
-                                    uint32_t fftLen,
-                                    const q31_t *pCoef);
-
-/**
- * @ingroup groupTransforms
- */
-
-/**
- * @addtogroup ComplexFFT
- * @{
- */
+void arm_cfft_radix4by2_inverse_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    const q31_t * pCoef);
 
 /**
- * @details
- * @brief       Processing function for the fixed-point complex FFT in Q31
- * format.
- * @param[in]      *S    points to an instance of the fixed-point CFFT
- * structure.
- * @param[in, out] *p1   points to the complex data buffer of size
- * <code>2*fftLen</code>. Processing occurs in-place.
- * @param[in]     ifftFlag       flag that selects forward (ifftFlag=0) or
- * inverse (ifftFlag=1) transform.
- * @param[in]     bitReverseFlag flag that enables (bitReverseFlag=1) or
- * disables (bitReverseFlag=0) bit reversal of output.
- * @return none.
- */
+* @ingroup groupTransforms
+*/
 
-void arm_cfft_q31(const arm_cfft_instance_q31 *S,
-                  q31_t *p1,
-                  uint8_t ifftFlag,
-                  uint8_t bitReverseFlag)
+/**
+* @addtogroup ComplexFFT
+* @{
+*/
+
+/**
+* @details
+* @brief       Processing function for the fixed-point complex FFT in Q31 format.
+* @param[in]      *S    points to an instance of the fixed-point CFFT structure.
+* @param[in, out] *p1   points to the complex data buffer of size <code>2*fftLen</code>. Processing occurs in-place.
+* @param[in]     ifftFlag       flag that selects forward (ifftFlag=0) or inverse (ifftFlag=1) transform.
+* @param[in]     bitReverseFlag flag that enables (bitReverseFlag=1) or disables (bitReverseFlag=0) bit reversal of output.
+* @return none.
+*/
+
+void arm_cfft_q31(
+    const arm_cfft_instance_q31 * S,
+    q31_t * p1,
+    uint8_t ifftFlag,
+    uint8_t bitReverseFlag)
 {
     uint32_t L = S->fftLen;
 
@@ -89,14 +91,14 @@ void arm_cfft_q31(const arm_cfft_instance_q31 *S,
         case 256:
         case 1024:
         case 4096:
-            arm_radix4_butterfly_inverse_q31(p1, L, (q31_t *)S->pTwiddle, 1);
+            arm_radix4_butterfly_inverse_q31  ( p1, L, (q31_t*)S->pTwiddle, 1 );
             break;
 
         case 32:
         case 128:
         case 512:
         case 2048:
-            arm_cfft_radix4by2_inverse_q31(p1, L, S->pTwiddle);
+            arm_cfft_radix4by2_inverse_q31  ( p1, L, S->pTwiddle );
             break;
         }
     }
@@ -109,27 +111,30 @@ void arm_cfft_q31(const arm_cfft_instance_q31 *S,
         case 256:
         case 1024:
         case 4096:
-            arm_radix4_butterfly_q31(p1, L, (q31_t *)S->pTwiddle, 1);
+            arm_radix4_butterfly_q31  ( p1, L, (q31_t*)S->pTwiddle, 1 );
             break;
 
         case 32:
         case 128:
         case 512:
         case 2048:
-            arm_cfft_radix4by2_q31(p1, L, S->pTwiddle);
+            arm_cfft_radix4by2_q31  ( p1, L, S->pTwiddle );
             break;
         }
     }
 
-    if (bitReverseFlag)
-        arm_bitreversal_32((uint32_t *)p1, S->bitRevLength, S->pBitRevTable);
+    if ( bitReverseFlag )
+        arm_bitreversal_32((uint32_t*)p1,S->bitRevLength,S->pBitRevTable);
 }
 
 /**
- * @} end of ComplexFFT group
- */
+* @} end of ComplexFFT group
+*/
 
-void arm_cfft_radix4by2_q31(q31_t *pSrc, uint32_t fftLen, const q31_t *pCoef)
+void arm_cfft_radix4by2_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    const q31_t * pCoef)
 {
     uint32_t i, l;
     uint32_t n2, ia;
@@ -140,8 +145,8 @@ void arm_cfft_radix4by2_q31(q31_t *pSrc, uint32_t fftLen, const q31_t *pCoef)
     ia = 0;
     for (i = 0; i < n2; i++)
     {
-        cosVal = pCoef[2 * ia];
-        sinVal = pCoef[2 * ia + 1];
+        cosVal = pCoef[2*ia];
+        sinVal = pCoef[2*ia + 1];
         ia++;
 
         l = i + n2;
@@ -158,35 +163,38 @@ void arm_cfft_radix4by2_q31(q31_t *pSrc, uint32_t fftLen, const q31_t *pCoef)
 
         pSrc[2U * l] = p0 << 1;
         pSrc[2U * l + 1U] = p1 << 1;
+
     }
 
     // first col
-    arm_radix4_butterfly_q31(pSrc, n2, (q31_t *)pCoef, 2U);
+    arm_radix4_butterfly_q31( pSrc, n2, (q31_t*)pCoef, 2U);
     // second col
-    arm_radix4_butterfly_q31(pSrc + fftLen, n2, (q31_t *)pCoef, 2U);
+    arm_radix4_butterfly_q31( pSrc + fftLen, n2, (q31_t*)pCoef, 2U);
 
-    for (i = 0; i<fftLen> > 1; i++)
+    for (i = 0; i < fftLen >> 1; i++)
     {
-        p0 = pSrc[4 * i + 0];
-        p1 = pSrc[4 * i + 1];
-        xt = pSrc[4 * i + 2];
-        yt = pSrc[4 * i + 3];
+        p0 = pSrc[4*i+0];
+        p1 = pSrc[4*i+1];
+        xt = pSrc[4*i+2];
+        yt = pSrc[4*i+3];
 
         p0 <<= 1;
         p1 <<= 1;
         xt <<= 1;
         yt <<= 1;
 
-        pSrc[4 * i + 0] = p0;
-        pSrc[4 * i + 1] = p1;
-        pSrc[4 * i + 2] = xt;
-        pSrc[4 * i + 3] = yt;
+        pSrc[4*i+0] = p0;
+        pSrc[4*i+1] = p1;
+        pSrc[4*i+2] = xt;
+        pSrc[4*i+3] = yt;
     }
+
 }
 
-void arm_cfft_radix4by2_inverse_q31(q31_t *pSrc,
-                                    uint32_t fftLen,
-                                    const q31_t *pCoef)
+void arm_cfft_radix4by2_inverse_q31(
+    q31_t * pSrc,
+    uint32_t fftLen,
+    const q31_t * pCoef)
 {
     uint32_t i, l;
     uint32_t n2, ia;
@@ -197,8 +205,8 @@ void arm_cfft_radix4by2_inverse_q31(q31_t *pSrc,
     ia = 0;
     for (i = 0; i < n2; i++)
     {
-        cosVal = pCoef[2 * ia];
-        sinVal = pCoef[2 * ia + 1];
+        cosVal = pCoef[2*ia];
+        sinVal = pCoef[2*ia + 1];
         ia++;
 
         l = i + n2;
@@ -215,28 +223,30 @@ void arm_cfft_radix4by2_inverse_q31(q31_t *pSrc,
 
         pSrc[2U * l] = p0 << 1;
         pSrc[2U * l + 1U] = p1 << 1;
+
     }
 
     // first col
-    arm_radix4_butterfly_inverse_q31(pSrc, n2, (q31_t *)pCoef, 2U);
+    arm_radix4_butterfly_inverse_q31( pSrc, n2, (q31_t*)pCoef, 2U);
     // second col
-    arm_radix4_butterfly_inverse_q31(pSrc + fftLen, n2, (q31_t *)pCoef, 2U);
+    arm_radix4_butterfly_inverse_q31( pSrc + fftLen, n2, (q31_t*)pCoef, 2U);
 
-    for (i = 0; i<fftLen> > 1; i++)
+    for (i = 0; i < fftLen >> 1; i++)
     {
-        p0 = pSrc[4 * i + 0];
-        p1 = pSrc[4 * i + 1];
-        xt = pSrc[4 * i + 2];
-        yt = pSrc[4 * i + 3];
+        p0 = pSrc[4*i+0];
+        p1 = pSrc[4*i+1];
+        xt = pSrc[4*i+2];
+        yt = pSrc[4*i+3];
 
         p0 <<= 1;
         p1 <<= 1;
         xt <<= 1;
         yt <<= 1;
 
-        pSrc[4 * i + 0] = p0;
-        pSrc[4 * i + 1] = p1;
-        pSrc[4 * i + 2] = xt;
-        pSrc[4 * i + 3] = yt;
+        pSrc[4*i+0] = p0;
+        pSrc[4*i+1] = p1;
+        pSrc[4*i+2] = xt;
+        pSrc[4*i+3] = yt;
     }
 }
+

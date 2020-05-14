@@ -51,77 +51,79 @@
  * <b>Scaling and Overflow Behavior:</b>
  * \par
  * The function uses saturating arithmetic.
- * The Q15 value -1 (0x8000) will be saturated to the maximum allowable positive
- * value 0x7FFF.
+ * The Q15 value -1 (0x8000) will be saturated to the maximum allowable positive value 0x7FFF.
  */
 
-void arm_negate_q15(q15_t *pSrc, q15_t *pDst, uint32_t blockSize)
+void arm_negate_q15(
+  q15_t * pSrc,
+  q15_t * pDst,
+  uint32_t blockSize)
 {
-    uint32_t blkCnt; /* loop counter */
-    q15_t in;
+  uint32_t blkCnt;                               /* loop counter */
+  q15_t in;
 
-#if defined(ARM_MATH_DSP)
+#if defined (ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
+/* Run the below code for Cortex-M4 and Cortex-M3 */
 
-    q31_t in1, in2; /* Temporary variables */
+  q31_t in1, in2;                                /* Temporary variables */
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* C = -A */
-        /* Read two inputs at a time */
-        in1 = _SIMD32_OFFSET(pSrc);
-        in2 = _SIMD32_OFFSET(pSrc + 2);
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        /* negate two samples at a time */
-        in1 = __QSUB16(0, in1);
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* C = -A */
+    /* Read two inputs at a time */
+    in1 = _SIMD32_OFFSET(pSrc);
+    in2 = _SIMD32_OFFSET(pSrc + 2);
 
-        /* negate two samples at a time */
-        in2 = __QSUB16(0, in2);
+    /* negate two samples at a time */
+    in1 = __QSUB16(0, in1);
 
-        /* store the result to destination 2 samples at a time */
-        _SIMD32_OFFSET(pDst) = in1;
-        /* store the result to destination 2 samples at a time */
-        _SIMD32_OFFSET(pDst + 2) = in2;
+    /* negate two samples at a time */
+    in2 = __QSUB16(0, in2);
 
-        /* update pointers to process next samples */
-        pSrc += 4U;
-        pDst += 4U;
+    /* store the result to destination 2 samples at a time */
+    _SIMD32_OFFSET(pDst) = in1;
+    /* store the result to destination 2 samples at a time */
+    _SIMD32_OFFSET(pDst + 2) = in2;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* update pointers to process next samples */
+    pSrc += 4U;
+    pDst += 4U;
+
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
+
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Initialize blkCnt with number of samples */
-    blkCnt = blockSize;
+  /* Initialize blkCnt with number of samples */
+  blkCnt = blockSize;
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-    while (blkCnt > 0U)
-    {
-        /* C = -A */
-        /* Negate and then store the result in the destination buffer. */
-        in = *pSrc++;
-        *pDst++ = (in == (q15_t)0x8000) ? 0x7fff : -in;
+  while (blkCnt > 0U)
+  {
+    /* C = -A */
+    /* Negate and then store the result in the destination buffer. */
+    in = *pSrc++;
+    *pDst++ = (in == (q15_t) 0x8000) ? 0x7fff : -in;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 }
 
 /**

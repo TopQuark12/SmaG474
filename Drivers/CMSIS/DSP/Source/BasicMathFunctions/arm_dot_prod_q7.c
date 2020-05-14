@@ -49,95 +49,97 @@
  * \par
  * The intermediate multiplications are in 1.7 x 1.7 = 2.14 format and these
  * results are added to an accumulator in 18.14 format.
- * Nonsaturating additions are used and there is no danger of wrap around as
- * long as the vectors are less than 2^18 elements long. The return result is
- * in 18.14 format.
+ * Nonsaturating additions are used and there is no danger of wrap around as long as
+ * the vectors are less than 2^18 elements long.
+ * The return result is in 18.14 format.
  */
 
-void arm_dot_prod_q7(q7_t *pSrcA,
-                     q7_t *pSrcB,
-                     uint32_t blockSize,
-                     q31_t *result)
+void arm_dot_prod_q7(
+  q7_t * pSrcA,
+  q7_t * pSrcB,
+  uint32_t blockSize,
+  q31_t * result)
 {
-    uint32_t blkCnt; /* loop counter */
+  uint32_t blkCnt;                               /* loop counter */
 
-    q31_t sum = 0; /* Temporary variables to store output */
+  q31_t sum = 0;                                 /* Temporary variables to store output */
 
-#if defined(ARM_MATH_DSP)
+#if defined (ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
+/* Run the below code for Cortex-M4 and Cortex-M3 */
 
-    q31_t input1, input2;         /* Temporary variables to store input */
-    q31_t inA1, inA2, inB1, inB2; /* Temporary variables to store input */
+  q31_t input1, input2;                          /* Temporary variables to store input */
+  q31_t inA1, inA2, inB1, inB2;                  /* Temporary variables to store input */
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* read 4 samples at a time from sourceA */
-        input1 = *__SIMD32(pSrcA)++;
-        /* read 4 samples at a time from sourceB */
-        input2 = *__SIMD32(pSrcB)++;
 
-        /* extract two q7_t samples to q15_t samples */
-        inA1 = __SXTB16(__ROR(input1, 8));
-        /* extract reminaing two samples */
-        inA2 = __SXTB16(input1);
-        /* extract two q7_t samples to q15_t samples */
-        inB1 = __SXTB16(__ROR(input2, 8));
-        /* extract reminaing two samples */
-        inB2 = __SXTB16(input2);
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        /* multiply and accumulate two samples at a time */
-        sum = __SMLAD(inA1, inB1, sum);
-        sum = __SMLAD(inA2, inB2, sum);
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* read 4 samples at a time from sourceA */
+    input1 = *__SIMD32(pSrcA)++;
+    /* read 4 samples at a time from sourceB */
+    input2 = *__SIMD32(pSrcB)++;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* extract two q7_t samples to q15_t samples */
+    inA1 = __SXTB16(__ROR(input1, 8));
+    /* extract reminaing two samples */
+    inA2 = __SXTB16(input1);
+    /* extract two q7_t samples to q15_t samples */
+    inB1 = __SXTB16(__ROR(input2, 8));
+    /* extract reminaing two samples */
+    inB2 = __SXTB16(input2);
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* multiply and accumulate two samples at a time */
+    sum = __SMLAD(inA1, inB1, sum);
+    sum = __SMLAD(inA2, inB2, sum);
 
-    while (blkCnt > 0U)
-    {
-        /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]*
-         * B[blockSize-1] */
-        /* Dot product and then store the results in a temporary buffer. */
-        sum = __SMLAD(*pSrcA++, *pSrcB++, sum);
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
+
+  while (blkCnt > 0U)
+  {
+    /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+    /* Dot product and then store the results in a temporary buffer. */
+    sum = __SMLAD(*pSrcA++, *pSrcB++, sum);
+
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Initialize blkCnt with number of samples */
-    blkCnt = blockSize;
 
-    while (blkCnt > 0U)
-    {
-        /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]*
-         * B[blockSize-1] */
-        /* Dot product and then store the results in a temporary buffer. */
-        sum += (q31_t)((q15_t)*pSrcA++ * *pSrcB++);
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+  /* Initialize blkCnt with number of samples */
+  blkCnt = blockSize;
+
+  while (blkCnt > 0U)
+  {
+    /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+    /* Dot product and then store the results in a temporary buffer. */
+    sum += (q31_t) ((q15_t) * pSrcA++ * *pSrcB++);
+
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-    /* Store the result in the destination buffer in 18.14 format */
-    *result = sum;
+
+  /* Store the result in the destination buffer in 18.14 format */
+  *result = sum;
 }
 
 /**

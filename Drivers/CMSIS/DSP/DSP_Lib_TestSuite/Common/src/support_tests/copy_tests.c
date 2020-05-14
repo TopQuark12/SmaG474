@@ -1,18 +1,19 @@
-#include "arm_math.h" /* FUTs */
-#include "arr_desc.h"
 #include "jtest.h"
-#include "ref.h" /* Reference Functions */
-#include "support_templates.h"
 #include "support_test_data.h"
+#include "arr_desc.h"
+#include "arm_math.h"           /* FUTs */
+#include "ref.h"                /* Reference Functions */
 #include "test_templates.h"
+#include "support_templates.h"
 #include "type_abbrev.h"
 
-#define JTEST_ARM_COPY_TEST(suffix)                                 \
-    SUPPORT_DEFINE_TEST_TEMPLATE_BUF1_BLK(copy,                     \
-                                          suffix,                   \
-                                          TYPE_FROM_ABBREV(suffix), \
-                                          TYPE_FROM_ABBREV(suffix), \
-                                          SUPPORT_COMPARE_INTERFACE)
+#define JTEST_ARM_COPY_TEST(suffix)             \
+    SUPPORT_DEFINE_TEST_TEMPLATE_BUF1_BLK(      \
+        copy,                                   \
+        suffix,                                 \
+        TYPE_FROM_ABBREV(suffix),               \
+        TYPE_FROM_ABBREV(suffix),               \
+        SUPPORT_COMPARE_INTERFACE)
 
 JTEST_ARM_COPY_TEST(f32);
 JTEST_ARM_COPY_TEST(q31);

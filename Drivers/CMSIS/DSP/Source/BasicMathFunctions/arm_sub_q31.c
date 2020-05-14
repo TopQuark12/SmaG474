@@ -48,82 +48,85 @@
  * <b>Scaling and Overflow Behavior:</b>
  * \par
  * The function uses saturating arithmetic.
- * Results outside of the allowable Q31 range [0x80000000 0x7FFFFFFF] will be
- * saturated.
+ * Results outside of the allowable Q31 range [0x80000000 0x7FFFFFFF] will be saturated.
  */
 
-void arm_sub_q31(q31_t *pSrcA, q31_t *pSrcB, q31_t *pDst, uint32_t blockSize)
+void arm_sub_q31(
+  q31_t * pSrcA,
+  q31_t * pSrcB,
+  q31_t * pDst,
+  uint32_t blockSize)
 {
-    uint32_t blkCnt; /* loop counter */
+  uint32_t blkCnt;                               /* loop counter */
 
-#if defined(ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
-    q31_t inA1, inA2, inA3, inA4;
-    q31_t inB1, inB2, inB3, inB4;
+#if defined (ARM_MATH_DSP)
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
+/* Run the below code for Cortex-M4 and Cortex-M3 */
+  q31_t inA1, inA2, inA3, inA4;
+  q31_t inB1, inB2, inB3, inB4;
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* C = A - B */
-        /* Subtract and then store the results in the destination buffer. */
-        inA1 = *pSrcA++;
-        inA2 = *pSrcA++;
-        inB1 = *pSrcB++;
-        inB2 = *pSrcB++;
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        inA3 = *pSrcA++;
-        inA4 = *pSrcA++;
-        inB3 = *pSrcB++;
-        inB4 = *pSrcB++;
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* C = A - B */
+    /* Subtract and then store the results in the destination buffer. */
+    inA1 = *pSrcA++;
+    inA2 = *pSrcA++;
+    inB1 = *pSrcB++;
+    inB2 = *pSrcB++;
 
-        *pDst++ = __QSUB(inA1, inB1);
-        *pDst++ = __QSUB(inA2, inB2);
-        *pDst++ = __QSUB(inA3, inB3);
-        *pDst++ = __QSUB(inA4, inB4);
+    inA3 = *pSrcA++;
+    inA4 = *pSrcA++;
+    inB3 = *pSrcB++;
+    inB4 = *pSrcB++;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    *pDst++ = __QSUB(inA1, inB1);
+    *pDst++ = __QSUB(inA2, inB2);
+    *pDst++ = __QSUB(inA3, inB3);
+    *pDst++ = __QSUB(inA4, inB4);
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
-    while (blkCnt > 0U)
-    {
-        /* C = A - B */
-        /* Subtract and then store the result in the destination buffer. */
-        *pDst++ = __QSUB(*pSrcA++, *pSrcB++);
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+  while (blkCnt > 0U)
+  {
+    /* C = A - B */
+    /* Subtract and then store the result in the destination buffer. */
+    *pDst++ = __QSUB(*pSrcA++, *pSrcB++);
+
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Initialize blkCnt with number of samples */
-    blkCnt = blockSize;
+  /* Initialize blkCnt with number of samples */
+  blkCnt = blockSize;
 
-    while (blkCnt > 0U)
-    {
-        /* C = A - B */
-        /* Subtract and then store the result in the destination buffer. */
-        *pDst++ = (q31_t)clip_q63_to_q31((q63_t)*pSrcA++ - *pSrcB++);
+  while (blkCnt > 0U)
+  {
+    /* C = A - B */
+    /* Subtract and then store the result in the destination buffer. */
+    *pDst++ = (q31_t) clip_q63_to_q31((q63_t) * pSrcA++ - *pSrcB++);
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 
 #endif /* #if defined (ARM_MATH_DSP) */
+
 }
 
 /**

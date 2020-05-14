@@ -59,72 +59,74 @@
  * @return none.
  */
 
-void arm_negate_f32(float32_t *pSrc, float32_t *pDst, uint32_t blockSize)
+void arm_negate_f32(
+  float32_t * pSrc,
+  float32_t * pDst,
+  uint32_t blockSize)
 {
-    uint32_t blkCnt; /* loop counter */
+  uint32_t blkCnt;                               /* loop counter */
 
-#if defined(ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
-    float32_t in1, in2, in3, in4; /* temporary variables */
+#if defined (ARM_MATH_DSP)
 
-    /*loop Unrolling */
-    blkCnt = blockSize >> 2U;
+/* Run the below code for Cortex-M4 and Cortex-M3 */
+  float32_t in1, in2, in3, in4;                  /* temporary variables */
 
-    /* First part of the processing with loop unrolling.  Compute 4 outputs at a
-     *time.
-     ** a second loop below computes the remaining 1 to 3 samples. */
-    while (blkCnt > 0U)
-    {
-        /* read inputs from source */
-        in1 = *pSrc;
-        in2 = *(pSrc + 1);
-        in3 = *(pSrc + 2);
-        in4 = *(pSrc + 3);
+  /*loop Unrolling */
+  blkCnt = blockSize >> 2U;
 
-        /* negate the input */
-        in1 = -in1;
-        in2 = -in2;
-        in3 = -in3;
-        in4 = -in4;
+  /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+   ** a second loop below computes the remaining 1 to 3 samples. */
+  while (blkCnt > 0U)
+  {
+    /* read inputs from source */
+    in1 = *pSrc;
+    in2 = *(pSrc + 1);
+    in3 = *(pSrc + 2);
+    in4 = *(pSrc + 3);
 
-        /* store the result to destination */
-        *pDst = in1;
-        *(pDst + 1) = in2;
-        *(pDst + 2) = in3;
-        *(pDst + 3) = in4;
+    /* negate the input */
+    in1 = -in1;
+    in2 = -in2;
+    in3 = -in3;
+    in4 = -in4;
 
-        /* update pointers to process next samples */
-        pSrc += 4U;
-        pDst += 4U;
+    /* store the result to destination */
+    *pDst = in1;
+    *(pDst + 1) = in2;
+    *(pDst + 2) = in3;
+    *(pDst + 3) = in4;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* update pointers to process next samples */
+    pSrc += 4U;
+    pDst += 4U;
 
-    /* If the blockSize is not a multiple of 4, compute any remaining output
-     *samples here.
-     ** No loop unrolling is used. */
-    blkCnt = blockSize % 0x4U;
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
+
+  /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+   ** No loop unrolling is used. */
+  blkCnt = blockSize % 0x4U;
 
 #else
 
-    /* Run the below code for Cortex-M0 */
+  /* Run the below code for Cortex-M0 */
 
-    /* Initialize blkCnt with number of samples */
-    blkCnt = blockSize;
+  /* Initialize blkCnt with number of samples */
+  blkCnt = blockSize;
 
 #endif /* #if defined (ARM_MATH_DSP) */
 
-    while (blkCnt > 0U)
-    {
-        /* C = -A */
-        /* Negate and then store the results in the destination buffer. */
-        *pDst++ = -*pSrc++;
+  while (blkCnt > 0U)
+  {
+    /* C = -A */
+    /* Negate and then store the results in the destination buffer. */
+    *pDst++ = -*pSrc++;
 
-        /* Decrement the loop counter */
-        blkCnt--;
-    }
+    /* Decrement the loop counter */
+    blkCnt--;
+  }
 }
 
 /**

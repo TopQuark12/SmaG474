@@ -39,25 +39,24 @@
 
 /**
  * @param[in,out]  *S points to an instance of the Q15 FIR filter structure.
- * @param[in] 	   numTaps  Number of filter coefficients in the filter. Must be
- * even and greater than or equal to 4.
+ * @param[in] 	   numTaps  Number of filter coefficients in the filter. Must be even and greater than or equal to 4.
  * @param[in]      *pCoeffs points to the filter coefficients buffer.
  * @param[in]      *pState points to the state buffer.
  * @param[in]      blockSize is number of samples processed per call.
- * @return The function returns ARM_MATH_SUCCESS if initialization is successful
- * or ARM_MATH_ARGUMENT_ERROR if <code>numTaps</code> is not greater than or
- * equal to 4 and even.
+ * @return The function returns ARM_MATH_SUCCESS if initialization is successful or ARM_MATH_ARGUMENT_ERROR if
+ * <code>numTaps</code> is not greater than or equal to 4 and even.
  *
  * <b>Description:</b>
  * \par
- * <code>pCoeffs</code> points to the array of filter coefficients stored in
- * time reversed order: <pre> {b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1],
- * b[0]}
+ * <code>pCoeffs</code> points to the array of filter coefficients stored in time reversed order:
+ * <pre>
+ *    {b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]}
  * </pre>
  * Note that <code>numTaps</code> must be even and greater than or equal to 4.
- * To implement an odd length filter simply increase <code>numTaps</code> by 1
- * and set the last coefficient to zero. For example, to implement a filter with
- * <code>numTaps=3</code> and coefficients <pre> {0.3, -0.8, 0.3}
+ * To implement an odd length filter simply increase <code>numTaps</code> by 1 and set the last coefficient to zero.
+ * For example, to implement a filter with <code>numTaps=3</code> and coefficients
+ * <pre>
+ *     {0.3, -0.8, 0.3}
  * </pre>
  * set <code>numTaps=4</code> and use the coefficients:
  * <pre>
@@ -73,71 +72,69 @@
  * </pre>
  * \par
  * <code>pState</code> points to the array of state variables.
- * <code>pState</code> is of length <code>numTaps+blockSize</code>, when running
- * on Cortex-M4 and Cortex-M3  and is of length
- * <code>numTaps+blockSize-1</code>, when running on Cortex-M0 where
- * <code>blockSize</code> is the number of input samples processed by each call
- * to <code>arm_fir_q15()</code>.
+ * <code>pState</code> is of length <code>numTaps+blockSize</code>, when running on Cortex-M4 and Cortex-M3  and is of length <code>numTaps+blockSize-1</code>, when running on Cortex-M0 where <code>blockSize</code> is the number of input samples processed by each call to <code>arm_fir_q15()</code>.
  */
 
-arm_status arm_fir_init_q15(arm_fir_instance_q15 *S,
-                            uint16_t numTaps,
-                            q15_t *pCoeffs,
-                            q15_t *pState,
-                            uint32_t blockSize)
+arm_status arm_fir_init_q15(
+  arm_fir_instance_q15 * S,
+  uint16_t numTaps,
+  q15_t * pCoeffs,
+  q15_t * pState,
+  uint32_t blockSize)
 {
-    arm_status status;
+  arm_status status;
 
-#if defined(ARM_MATH_DSP)
 
-    /* Run the below code for Cortex-M4 and Cortex-M3 */
+#if defined (ARM_MATH_DSP)
 
-    /* The Number of filter coefficients in the filter must be even and at least
-     * 4 */
-    if (numTaps & 0x1U)
-    {
-        status = ARM_MATH_ARGUMENT_ERROR;
-    }
-    else
-    {
-        /* Assign filter taps */
-        S->numTaps = numTaps;
+  /* Run the below code for Cortex-M4 and Cortex-M3 */
 
-        /* Assign coefficient pointer */
-        S->pCoeffs = pCoeffs;
-
-        /* Clear the state buffer.  The size is always (blockSize + numTaps ) */
-        memset(pState, 0, (numTaps + (blockSize)) * sizeof(q15_t));
-
-        /* Assign state pointer */
-        S->pState = pState;
-
-        status = ARM_MATH_SUCCESS;
-    }
-
-    return (status);
-
-#else
-
-    /* Run the below code for Cortex-M0 */
-
+  /* The Number of filter coefficients in the filter must be even and at least 4 */
+  if (numTaps & 0x1U)
+  {
+    status = ARM_MATH_ARGUMENT_ERROR;
+  }
+  else
+  {
     /* Assign filter taps */
     S->numTaps = numTaps;
 
     /* Assign coefficient pointer */
     S->pCoeffs = pCoeffs;
 
-    /* Clear the state buffer.  The size is always (blockSize + numTaps - 1) */
-    memset(pState, 0, (numTaps + (blockSize - 1U)) * sizeof(q15_t));
+    /* Clear the state buffer.  The size is always (blockSize + numTaps ) */
+    memset(pState, 0, (numTaps + (blockSize)) * sizeof(q15_t));
 
     /* Assign state pointer */
     S->pState = pState;
 
     status = ARM_MATH_SUCCESS;
+  }
 
-    return (status);
+  return (status);
+
+#else
+
+  /* Run the below code for Cortex-M0 */
+
+  /* Assign filter taps */
+  S->numTaps = numTaps;
+
+  /* Assign coefficient pointer */
+  S->pCoeffs = pCoeffs;
+
+  /* Clear the state buffer.  The size is always (blockSize + numTaps - 1) */
+  memset(pState, 0, (numTaps + (blockSize - 1U)) * sizeof(q15_t));
+
+  /* Assign state pointer */
+  S->pState = pState;
+
+  status = ARM_MATH_SUCCESS;
+
+  return (status);
 
 #endif /*  #if defined (ARM_MATH_DSP) */
+
 }
 
 /**
