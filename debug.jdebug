@@ -5,8 +5,8 @@
 **********************************************************************
                                                                       
 File          :                                                     
-Created       : 14 May 2020  15:00                                                    
-Ozone Version : V3.10h                                                    
+Created       : 07 Jun 2020  15:19                                                    
+Ozone Version : V3.10b                                                    
 */
 
 /*********************************************************************
@@ -22,13 +22,13 @@ void OnProjectLoad (void) {
   //
   // Dialog-generated settings
   //
+  Project.AddPathSubstitute ("C:/GCC_STM/SmaG474", "$(ProjectDir)");
+  Project.AddPathSubstitute ("c:/gcc_stm/smag474", "$(ProjectDir)");
   Project.SetDevice ("STM32G474RE");
   Project.SetHostIF ("USB", "");
   Project.SetTargetIF ("SWD");
   Project.SetTIFSpeed ("50 MHz");
-  Project.AddPathSubstitute ("C:/GCC_STM/SmaG474", "$(ProjectDir)");
-  Project.AddPathSubstitute ("c:/gcc_stm/smag474", "$(ProjectDir)");
-  Project.AddSvdFile ("C:/Program Files/SEGGER/Ozone V3.10h/Config/CPU/Cortex-M4F.svd");
+  Project.AddSvdFile ("C:/Program Files/SEGGER/Ozone V3.10b/Config/CPU/Cortex-M4F.svd");
   //
   // User settings
   //

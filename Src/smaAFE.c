@@ -14,7 +14,7 @@
 #include "main.h"
 #include "tim.h"
 
-#define NCoef 2
+#define NCoef 4
 
 uint16_t adcDataRaw[2];
 float voltageReadingOffset = -0.24;
@@ -30,7 +30,19 @@ float currentReading;
 float voltageReading;
 float resistanceReading;
 float shrinkage;
-float shrinkageSetting;
+float shrinkageFiltered;
+float shrinkageSetting = 0.1;
+float kP = 2;
+float kI = 0.07;
+float kD = 0;
+float P;
+float I;
+float D;
+float integral = 0;
+float err = 0;
+float errLast = 0;
+float integralMin = 0;    //setting go down
+float integralMax = 5;     //setting go up
 
 void smaAfeInit(void)
 {
@@ -56,12 +68,17 @@ float map(float x, float in_min, float in_max, float out_min, float out_max)
 
 float iir(float NewSample)
 {
-    float ACoef[NCoef + 1] = {
-        0.06745527606901530200, 0.13491055213803060000, 0.06745527606901530200};
+    float ACoef[NCoef + 1] = {0.00482136451303671110,
+                              0.01928545805214684400,
+                              0.02892818707822026800,
+                              0.01928545805214684400,
+                              0.00482136451303671110};
 
     float BCoef[NCoef + 1] = {1.00000000000000000000,
-                              -1.14298050253990090000,
-                              0.41280159809618860000};
+                              -2.36951300718203720000,
+                              2.31398841441587950000,
+                              -1.05466540587856720000,
+                              0.18737949236818485000};
 
     static float y[NCoef + 1];  // output samples
     static float x[NCoef + 1];  // input samples
@@ -88,8 +105,23 @@ void smaAfeLoop(void)
     voltageReading = adcDataRaw[0] / voltageReadingGain - voltageReadingOffset;
     currentReading = adcDataRaw[1] / currentReadingGain - currentReadingOffset;
     resistanceReading = voltageReading / currentReading;
-    shrinkage = map(resistanceReading, 4.64, 4.1, 0, 1);
-    currentSet = shrinkage < shrinkageSetting ? currentSetMax : currentSetMin;
+    if (HAL_GetTick() > 250)
+    {
+        shrinkage = map(resistanceReading, 4.6, 4.1, 0, 1);
+        err = shrinkageSetting - shrinkage;
+        integral += err;
+        // integral = cap(integral, integralMin, integralMin);
+        if (integral > integralMax)
+            integral = integralMax;
+        if (integral < integralMin)
+            integral = integralMin;
+        // integral *= 0.995;
+        D = (err - errLast) * kD;
+        I = kI * integral;
+        P = kP * err;
+        currentSet = P + I + D;
+        errLast = err;
+    }
     currentSet = cap(currentSet, currentSetMin, currentSetMax);
     dacOutRaw = (currentSet - currentSetOffset) * currentSetGain;
     HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint32_t) dacOutRaw);
