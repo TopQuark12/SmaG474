@@ -44,6 +44,19 @@ float err = 0;
 float errLast = 0;
 float integralMin = 0;    //setting go down
 float integralMax = 5;     //setting go up
+float shrinkageCycle[10] = {
+    0.0,
+    0.2, 
+    0.43, 
+    0.6, 
+    0.77, 
+    0.93, 
+    0.72, 
+    0.47, 
+    0.27, 
+    0.1};
+float resistancePlot = 0;
+uint8_t state = 0;
 
 button_t button;
 
@@ -115,7 +128,7 @@ void updateButton(button_t *button)
 {
     // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
     button->history = button->history << 1;
-    button->history |= !HAL_GPIO_ReadPin(button->GPIOx, button->GPIO_Pin);
+    button->history |= HAL_GPIO_ReadPin(button->GPIOx, button->GPIO_Pin);
     // osMutexRelease(button->mutexID);
 }
 
@@ -164,11 +177,22 @@ uint8_t isButtonUp(button_t *button)
 void smaAfeLoop(void) 
 {
     updateButton(&button);
-    if (isButtonDown(&button))
-        HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+    // if (isButtonDown(&button))
+    //     HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+    // else
+    //     HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+    if (isButtonPressed(&button))
+        state++;
+
+    if (state == 10)
+        state = 0;
+
+    shrinkageSetting = shrinkageCycle[state];
+
     voltageReading = adcDataRaw[0] / voltageReadingGain - voltageReadingOffset;
     currentReading = adcDataRaw[1] / currentReadingGain - currentReadingOffset;
     resistanceReading = voltageReading / currentReading;
+    resistancePlot = iir(resistanceReading);
     if (HAL_GetTick() > 250)
     {
         shrinkage = map(resistanceReading, 4.6, 4.1, 0, 1);
