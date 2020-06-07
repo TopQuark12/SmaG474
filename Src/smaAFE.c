@@ -13,6 +13,7 @@
 #include "dac.h"
 #include "main.h"
 #include "tim.h"
+#include "smaAFE.h"
 
 #define NCoef 4
 
@@ -44,10 +45,14 @@ float errLast = 0;
 float integralMin = 0;    //setting go down
 float integralMax = 5;     //setting go up
 
+button_t button;
+
 void smaAfeInit(void)
 {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcDataRaw, 2);
     HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
+    button.GPIOx = B1_GPIO_Port;
+    button.GPIO_Pin = B1_Pin;
 }
 
 static volatile uint32_t dacOutRaw = 0;
@@ -100,8 +105,67 @@ float iir(float NewSample)
     return y[0];
 }
 
+/**
+ * @brief	Shift current button status into history buffer
+ * 			Make this function external and poll periodically if not
+ * using RTOS
+ * @param	button		pointer to button_t struct
+ */
+void updateButton(button_t *button)
+{
+    // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
+    button->history = button->history << 1;
+    button->history |= !HAL_GPIO_ReadPin(button->GPIOx, button->GPIO_Pin);
+    // osMutexRelease(button->mutexID);
+}
+
+uint8_t isButtonPressed(button_t *button)
+{
+    // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
+    uint8_t pressed = 0;
+    if ((button->history & BUTTON_COMP_MASK) == BUTTON_COMP_PRES)
+    {
+        pressed = 1;
+        button->history = 0xFFFFFFFF;
+    }
+    // osMutexRelease(button->mutexID);
+    return pressed;
+}
+
+uint8_t isButtonReleased(button_t *button)
+{
+    // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
+    uint8_t released = 0;
+    if ((button->history & BUTTON_COMP_MASK) == BUTTON_COMP_PRES)
+    {
+        released = 1;
+        button->history = 0x00000000;
+    }
+    // osMutexRelease(button->mutexID);
+    return released;
+}
+
+uint8_t isButtonDown(button_t *button)
+{
+    // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
+    uint8_t state = button->history == 0xFFFFFFFF;
+    // osMutexRelease(button->mutexID);
+    return state;
+}
+
+uint8_t isButtonUp(button_t *button)
+{
+    // osMutexWait(button->mutexID, BUTTON_MUTEX_TIMEOUT);
+    uint8_t state = button->history == 0x00000000;
+    // osMutexRelease(button->mutexID);
+    return state;
+}
+
 void smaAfeLoop(void) 
 {
+    updateButton(&button);
+    if (isButtonDown(&button))
+        HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
     voltageReading = adcDataRaw[0] / voltageReadingGain - voltageReadingOffset;
     currentReading = adcDataRaw[1] / currentReadingGain - currentReadingOffset;
     resistanceReading = voltageReading / currentReading;
