@@ -110,7 +110,8 @@ int main(void)
     /* USER CODE END WHILE */
     if (HAL_GetTick() - lastTick > 10)
     {
-      smaAfeLoop();
+        smaAfeLoop();
+        lastTick = HAL_GetTick();
     }
     /* USER CODE BEGIN 3 */
     }
