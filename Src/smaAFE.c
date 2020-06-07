@@ -19,10 +19,19 @@ uint16_t adcDataRaw[2];
 void smaAfeInit(void)
 {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcDataRaw, 2);
-    HAL_TIM_Base_Start(&htim2);
+    // HAL_TIM_Base_Start(&htim2);
+    HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+static volatile uint32_t dacOutRaw = 0;
+
+void smaAfeLoop(void) 
 {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint32_t) dacOutRaw);
+
 }
+
+// void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+// {
+//     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+// }

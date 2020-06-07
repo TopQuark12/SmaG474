@@ -100,14 +100,18 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
     smaAfeInit();
-  /* USER CODE END 2 */
+    uint32_t lastTick = HAL_GetTick();
+    /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
     while (1)
     {
     /* USER CODE END WHILE */
-
+    if (HAL_GetTick() - lastTick > 10)
+    {
+      smaAfeLoop();
+    }
     /* USER CODE BEGIN 3 */
     }
   /* USER CODE END 3 */
